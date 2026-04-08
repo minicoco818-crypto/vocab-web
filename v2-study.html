@@ -100,6 +100,7 @@
       <a class="course-home" href="./v2.html">← 返回首页</a>
       <select id="bookSelect" style="display:none"></select>
       <select id="gradeSelect">
+        <option value="wy4">外研4</option>
         <option value="small-middle">小升初</option>
         <option value="g1">1年级</option>
         <option value="g2">2年级</option>
@@ -2938,7 +2939,7 @@ function renderUnitOptions(){
   }else if(grade==='g7'){
     if(term==='s') list = [['starter1','Starter Unit 1'],['starter2','Starter Unit 2'],['starter3','Starter Unit 3'],['unit1','Unit 1'],['unit2','Unit 2'],['unit3','Unit 3'],['unit4','Unit 4'],['unit5','Unit 5'],['unit6','Unit 6'],['unit7','Unit 7']];
     else list = [['unit8','Unit 1'],['unit9','Unit 2'],['unit10','Unit 3'],['unit11','Unit 4'],['unit12','Unit 5'],['unit13','Unit 6'],['unit14','Unit 7'],['unit15','Unit 8'],['mix','Unit1~8 混合']];
-  }else if(grade==='wy4'){
+  }else if(grade==='wy4' && term==='x'){
     list = Array.from({length:10}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
   }else if(grade==='g8'){
     const g = grade.slice(1);
@@ -2947,6 +2948,8 @@ function renderUnitOptions(){
       const u=i+1;
       return [`g${g}${term}_u${u}`, `Unit ${u}`];
     });
+  }else if(grade==='wy4' && term==='s'){
+    list = Array.from({length:10}, (_,i)=>{const u=i+1;return [`wy4s_u${u}`, `Unit ${u}`];});
   }else if(grade==='g9'){
     const g = grade.slice(1);
     list = Array.from({length:14}, (_,i)=>{
@@ -4449,4 +4452,8 @@ window.showSummary = function() {
 // 外研四年级下册词汇
 const wy4x_u1 = [["preview","预习"], ["subtitle","字幕"], ["dialogue","对话"], ["practice","练习"], ["pattern","句型"], ["structure","结构"], ["grammar","语法"], ["vocabulary","词汇"], ["expression","表达"], ["pronunciation","发音"]];
 const wy4x_u2 = [["conversation","交谈"], ["describe","描述"], ["introduce","介绍"], ["invite","邀请"], ["suggest","建议"], ["compare","比较"], ["explain","解释"], ["respond","回应"], ["continue","继续"], ["complete","完成"]];
+</script>
+<script>
+const wy4s_u1 = [["word1_s","词1"], ["word2_s","词2"], ["word3_s","词3"], ["word4_s","词4"], ["word5_s","词5"], ["word6_s","词6"], ["word7_s","词7"], ["word8_s","词8"], ["word9_s","词9"], ["word10_s","词10"]];
+const wy4s_u2 = [["word1_s","词1"], ["word2_s","词2"], ["word3_s","词3"], ["word4_s","词4"], ["word5_s","词5"], ["word6_s","词6"], ["word7_s","词7"], ["word8_s","词8"], ["word9_s","词9"], ["word10_s","词10"]];
 </script>
