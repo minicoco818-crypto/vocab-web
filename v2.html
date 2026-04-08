@@ -134,6 +134,7 @@
     }
 
     function buildBankCode(){
+  if (grade === "small-middle") return "small_middle";
       const g = gradeSelect.value;
       const t = termSelect.value;
       const u = unitSelect.value || '';
