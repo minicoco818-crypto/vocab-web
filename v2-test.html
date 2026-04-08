@@ -96,6 +96,7 @@
   <div class="course-bar">
     <select id="bookSelect" style="display:none"></select>
     <select id="gradeSelect">
+        <option value="wy4">外研4</option>
         <option value="small-middle">小升初</option>
       <option value="g1">1年级</option><option value="g2">2年级</option><option value="g3">3年级</option><option value="g4">4年级</option><option value="g5">5年级</option><option value="g6">6年级</option><option value="g7" selected>7年级</option><option value="g8">8年级</option><option value="g9">9年级</option>
     </select>
@@ -527,6 +528,7 @@ const G6X_U10_WORDS = [
   ["chemistry","化学"],["physics","物理"]
 ];
 
+  if(grade==="wy4"){return {"wy4x_u1":wy4x_u1,"wy4x_u2":wy4x_u2};}
 function buildFltrpUnits(grade, term, pool, seed=0){
   const out = {};
   const n = pool.length;
@@ -2421,4 +2423,7 @@ startDict();
 resetMorphIdle();
 </script>
 </body>
-</html>
+</html><script>
+const wy4x_u1 = [["preview","预习"], ["subtitle","字幕"], ["dialogue","对话"], ["practice","练习"], ["pattern","句型"], ["structure","结构"], ["grammar","语法"], ["vocabulary","词汇"], ["expression","表达"], ["pronunciation","发音"]];
+const wy4x_u2 = [["conversation","交谈"], ["describe","描述"], ["introduce","介绍"], ["invite","邀请"], ["suggest","建议"], ["compare","比较"], ["explain","解释"], ["respond","回应"], ["continue","继续"], ["complete","完成"]];
+</script>

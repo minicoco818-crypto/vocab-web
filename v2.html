@@ -47,6 +47,7 @@
         <div class="course-bar">
           <select id="bookSelect" style="display:none"></select>
           <select id="gradeSelect">
+        <option value="wy4">外研4</option>
         <option value="small-middle">小升初</option>
             <option value="g1">1年级</option>
             <option value="g2">2年级</option>
@@ -134,6 +135,7 @@
     }
 
     function buildBankCode(){
+  if (grade === "wy4") return "wy4x";
   if (grade === "small-middle") return "small_middle";
       const g = gradeSelect.value;
       const t = termSelect.value;
