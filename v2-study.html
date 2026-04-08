@@ -2952,13 +2952,13 @@ function renderUnitOptions(){
       return [`g${g}${term}_u${u}`, `Unit ${u}`];
     });
   }else if(grade==='g9'){
-  }else if(grade==='wy4'){
-    list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
     const g = grade.slice(1);
     list = Array.from({length:14}, (_,i)=>{
       const u=i+1;
       return [`g${g}${term}_u${u}`, `Unit ${u}`];
     });
+  }else if(grade==='wy4'){
+    list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
   }else{
     list = [['','（待添加）']];
   }
