@@ -4376,6 +4376,7 @@ window.showSummary = function() {
 (function(){
   function applyBankFromEntry(){
     const bank = localStorage.getItem('vocab-bank');
+    console.log('applyBankFromEntry START: bank='+bank+', savedGrade='+savedGrade+', savedTerm='+savedTerm+', savedUnit='+savedUnit);
     const savedGrade = localStorage.getItem('vocab-grade');
     const savedTerm = localStorage.getItem('vocab-term');
     const savedUnit = localStorage.getItem('vocab-unit');
@@ -4416,7 +4417,7 @@ window.showSummary = function() {
       }
     }
 
-    if(grade==='wy4' || bank==='wy4x'){grade='wy4';term=savedTerm||'x';unit=savedUnit||'wy4x_u1';}
+    if(grade==='wy4' || bank==='wy4x'){console.log('wy4 detected: savedTerm='+savedTerm+', savedUnit='+savedUnit);grade='wy4';term=savedTerm||'x';unit=savedUnit||'wy4x_u1';}
     if(gradeSelect) gradeSelect.value = grade;
     if(termSelect) termSelect.value = term;
     if(typeof renderUnitOptions === 'function') renderUnitOptions();
