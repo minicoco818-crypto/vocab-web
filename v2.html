@@ -57,8 +57,6 @@
             <option value="g8">8年级</option>
             <option value="g9">9年级</option>
             <option value="wy4">外研4</option>
-            <option value="small-middle">小升初</option>
-            <option value="wy4">外研4</option>
           </select>
           <select id="termSelect">
             <option value="s">上册</option>
@@ -114,10 +112,6 @@
             ['unit8','Unit 1'],['unit9','Unit 2'],['unit10','Unit 3'],['unit11','Unit 4'],['unit12','Unit 5'],['unit13','Unit 6'],['unit14','Unit 7'],['unit15','Unit 8']
           ];
         }
-      }else if(grade==='wy4' && term==='s'){
-        list = Array.from({length:10}, (_,i)=>{const u=i+1;return [`wy4s_u${u}`, `Unit ${u}`];});
-      }else if(grade==='wy4' && term==='x'){
-        list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
       }else if(grade==='wy4'){
         list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
       }else if(grade==='g8' || grade==='g9'){
@@ -142,9 +136,6 @@
     }
 
     function buildBankCode(){
-  if (grade === "wy4") return "wy4x";
-  if (grade === "small-middle") return "small_middle";
-  if (grade === "wy4") return "wy4x";
       const g = gradeSelect.value;
       const t = termSelect.value;
       const u = unitSelect.value || '';
@@ -197,18 +188,13 @@
 
     window.goWithBank = goWithBank;
   </script>
-
 <script>
-
-
-
-</script>const wy4x_u1 = [["work", "工作"], ["worker", "工人"], ["doctor", "医生"], ["aunt", "姑母；姨母"], ["fireman", "消防队员"], ["night", "夜晚，夜间"], ["farmer", "农民"], ["owl", "猫头鹰"], ["cook", "厨师"], ["night owl", "夜猫子"], ["police", "警察"], ["police officer", "警察，警官"], ["driver", "司机"], ["station", "所；站；台；局"], ["taxi", "出租车"], ["police station", "警察局，派出所"], ["safe", "安全的"], ["nurse", "护士"], ["often", "经常"], ["light", "照亮"], ["field", "田地"], ["uncle", "叔叔，伯伯"], ["painter", "画家"], ["paint", "给...上油漆"], ["bake", "烘，烤"], ["use", "用，使用"], ["bee", "蜜蜂"], ["brush", "刷子"], ["same", "相同的"], ["scientist", "科学家"], ["writer", "作家"], ["write", "写"], ["sound", "声音"], ["postman", "邮递员"], ["life", "生活"], ["mountain", "高山"]];const wy4x_u2 = [["laugh", "笑"], ["sad", "伤心的"], ["scared", "害怕的"], ["angry", "生气的"], ["excited", "兴奋的"], ["opera", "歌剧"], ["next", "下一个"], ["cough", "咳嗽"], ["better", "好转的"], ["gift", "礼物"], ["model", "模型"], ["shout", "喊叫"], ["should", "应当"], ["feeling", "感觉"], ["huge", "巨大的"], ["worried", "担心的"], ["street", "大街"], ["hit", "撞击"]];const wy4x_u3 = [["talent", "天资"], ["act", "演出"], ["magic", "魔术"], ["shine", "表现突出"], ["puzzle", "拼图"], ["dancer", "舞蹈演员"], ["win", "获胜"], ["just", "只是"], ["boy", "男孩"], ["slowly", "缓慢地"]];const wy4x_u4 = [["travel", "旅游"], ["tourist", "旅行者"], ["north", "北"], ["south", "南"], ["east", "东"], ["west", "西"], ["festival", "节日"], ["holiday", "假日"], ["flower", "花"], ["spring", "春天"], ["summer", "夏天"], ["autumn", "秋天"], ["winter", "冬天"], ["season", "季节"], ["picnic", "野餐"], ["plan", "计划"], ["seed", "种子"], ["plant", "种植"], ["grow", "生长"], ["clean", "清洁"], ["pick", "采摘"], ["nice", "美好的"], ["round", "圆的"], ["raindrop", "雨滴"], ["leaf", "叶子"], ["more", "更多的"], ["special", "特别的"], ["sunflower", "向日葵"], ["keeper", "保管人"], ["hey", "嘿"], ["dream", "梦"], ["lovely", "可爱的"], ["sleep", "睡"], ["student", "学生"], ["culture", "文化"], ["come true", "实现"], ["paper", "纸"], ["note", "笔记"]];const wy4x_u5 = [["design", "设计"], ["hometown", "故乡"]];const wy4x_u6 = [["T-shirt", "T恤"], ["skirt", "裙子"], ["shorts", "短裤"], ["shirt", "衬衫"], ["trousers", "裤子"], ["scarf", "围巾"], ["sweater", "毛衣"], ["dress", "连衣裙"], ["party", "聚会"], ["dressmaker", "裁缝"], ["wrong", "错误的"], ["clever", "聪明的"], ["whale", "鲸"], ["Mr", "先生"], ["uniform", "制服"], ["robe", "长袍"]];<script>
-const wy4x_u1 = [["work","工作"], ["worker","工人"], ["doctor","医生"], ["aunt","姑母；姨母"], ["fireman","消防队员"], ["night","夜晚，夜间"], ["farmer","农民"], ["owl","猫头鹰"], ["cook","厨师"], ["night owl","夜猫子"], ["police","警察"], ["police officer","警察，警官"], ["driver","司机"], ["station","所；站；台；局"], ["taxi","出租车"], ["police station","警察局，派出所"], ["safe","安全的"], ["nurse","护士"], ["often","经常"], ["light","照亮"], ["field","田地"], ["uncle","叔叔，伯伯"], ["painter","画家"], ["paint","给...上油漆"], ["bake","烘，烤"], ["use","用，使用"], ["bee","蜜蜂"], ["brush","刷子"], ["same","相同的"], ["scientist","科学家"], ["writer","作家"], ["write","写"], ["sound","声音"], ["postman","邮递员"], ["life","生活"], ["mountain","高山"]];
-const wy4x_u2 = [["laugh","笑"], ["sad","伤心的"], ["scared","害怕的"], ["angry","生气的"], ["excited","兴奋的"], ["opera","歌剧"], ["next","下一个"], ["cough","咳嗽"], ["better","好转的"], ["gift","礼物"], ["model","模型"], ["shout","喊叫"], ["should","应当"], ["feeling","感觉"], ["huge","巨大的"], ["worried","担心的"], ["street","大街"], ["hit","撞击"]];
-const wy4x_u3 = [["talent","天资"], ["act","演出"], ["magic","魔术"], ["shine","表现突出"], ["puzzle","拼图"], ["dancer","舞蹈演员"], ["win","获胜"], ["just","只是"], ["boy","男孩"], ["slowly","缓慢地"]];
-const wy4x_u4 = [["travel","旅游"], ["tourist","旅行者"], ["north","北"], ["south","南"], ["east","东"], ["west","西"], ["festival","节日"], ["holiday","假日"], ["flower","花"], ["spring","春天"], ["summer","夏天"], ["autumn","秋天"], ["winter","冬天"], ["season","季节"], ["picnic","野餐"], ["plan","计划"], ["seed","种子"], ["plant","种植"], ["grow","生长"], ["clean","清洁"], ["pick","采摘"], ["nice","美好的"], ["round","圆的"], ["raindrop","雨滴"], ["leaf","叶子"], ["more","更多的"], ["special","特别的"], ["sunflower","向日葵"], ["keeper","保管人"], ["hey","嘿"], ["dream","梦"], ["lovely","可爱的"], ["sleep","睡"], ["student","学生"], ["culture","文化"], ["come true","实现"], ["paper","纸"], ["note","笔记"]];
-const wy4x_u5 = [["design","设计"], ["hometown","故乡"]];
-const wy4x_u6 = [["T-shirt","T恤"], ["skirt","裙子"], ["shorts","短裤"], ["shirt","衬衫"], ["trousers","裤子"], ["scarf","围巾"], ["sweater","毛衣"], ["dress","连衣裙"], ["party","聚会"], ["dressmaker","裁缝"], ["wrong","错误的"], ["clever","聪明的"], ["whale","鲸"], ["Mr","先生"], ["uniform","制服"], ["robe","长袍"]];
+const wy4x_u1=[["work","工作"],["worker","工人"],["doctor","医生"],["aunt","姑母"],["fireman","消防员"],["night","夜晚"],["farmer","农民"],["owl","猫头鹰"],["cook","厨师"],["night owl","夜猫子"],["police","警察"],["police officer","警官"],["driver","司机"],["station","站"],["taxi","出租车"],["police station","派出所"],["safe","安全"],["nurse","护士"],["often","经常"],["light","灯"],["field","田地"],["uncle","叔叔"],["painter","画家"],["paint","油漆"],["bake","烘烤"],["use","使用"],["bee","蜜蜂"],["brush","刷子"],["same","相同"],["scientist","科学家"],["writer","作家"],["write","写"],["sound","声音"],["postman","邮递员"],["life","生活"],["mountain","山"]];
+const wy4x_u2=[["laugh","笑"],["sad","伤心"],["scared","害怕"],["angry","生气"],["excited","兴奋"],["opera","歌剧"],["next","下一个"],["cough","咳嗽"],["better","更好"],["gift","礼物"],["model","模型"],["shout","喊叫"],["should","应该"],["feeling","感觉"],["huge","巨大"],["worried","担心"],["street","街道"],["hit","撞击"]];
+const wy4x_u3=[["talent","天资"],["act","表演"],["magic","魔术"],["shine","闪耀"],["puzzle","谜题"],["dancer","舞者"],["win","赢"],["just","只是"],["boy","男孩"],["slowly","慢"]];
+const wy4x_u4=[["travel","旅行"],["tourist","游客"],["north","北"],["south","南"],["east","东"],["west","西"],["festival","节日"],["holiday","假日"],["flower","花"],["spring","春"],["summer","夏"],["autumn","秋"],["winter","冬"],["season","季节"],["picnic","野餐"],["plan","计划"],["seed","种子"],["plant","植物"],["grow","生长"],["clean","清洁"],["pick","采摘"],["nice","好"],["round","圆"],["raindrop","雨滴"],["leaf","叶子"],["more","更多"],["special","特别"],["sunflower","向日葵"],["keeper","保管员"],["hey","嘿"],["dream","梦"],["lovely","可爱"],["sleep","睡"],["student","学生"],["culture","文化"],["come true","实现"],["paper","纸"],["note","笔记"]];
+const wy4x_u5=[["design","设计"],["hometown","故乡"]];
+const wy4x_u6=[["T-shirt","T恤"],["skirt","裙子"],["shorts","短裤"],["shirt","衬衫"],["trousers","裤子"],["scarf","围巾"],["sweater","毛衣"],["dress","连衣裙"],["party","聚会"],["dressmaker","裁缝"],["wrong","错误"],["clever","聪明"],["whale","鲸"],["Mr","先生"],["uniform","制服"],["robe","长袍"]];
 </script>
 </body>
 </html>
