@@ -2925,7 +2925,7 @@ function getCurrentTermUnitNumber(){
 }
 function customUnitKey(bookId, term, u){ return `custom:${bookId}:${term}:u${u}`; }
 
-function renderUnitOptions(){
+function renderUnitOptions(){ console.log('renderUnitOptions grade:', gradeSelect?.value, 'term:', termSelect?.value);
   const grade = gradeSelect.value || 'g7';
   const term = termSelect.value || 'x';
   let list = [];
