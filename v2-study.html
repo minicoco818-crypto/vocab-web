@@ -2940,7 +2940,7 @@ function renderUnitOptions(){
     if(term==='s') list = [['starter1','Starter Unit 1'],['starter2','Starter Unit 2'],['starter3','Starter Unit 3'],['unit1','Unit 1'],['unit2','Unit 2'],['unit3','Unit 3'],['unit4','Unit 4'],['unit5','Unit 5'],['unit6','Unit 6'],['unit7','Unit 7']];
     else list = [['unit8','Unit 1'],['unit9','Unit 2'],['unit10','Unit 3'],['unit11','Unit 4'],['unit12','Unit 5'],['unit13','Unit 6'],['unit14','Unit 7'],['unit15','Unit 8'],['mix','Unit1~8 混合']];
   }else if(grade==='wy4' && term==='x'){
-    list = Array.from({length:10}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
+    list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
   }else if(grade==='g8'){
     const g = grade.slice(1);
     const maxUnits = 8; // 八年级上下册都只保留 Unit 1~8
@@ -4451,6 +4451,9 @@ window.showSummary = function() {
 </html><script>
 // 外研四年级下册词汇
 const wy4x_u1 = [["worker", "工人"], ["teacher", "老师"], ["doctor", "医生"], ["fireman", "消防员"], ["farmer", "农民"], ["cook", "厨师"], ["baker", "面包师"], ["police officer", "警察"], ["engineer", "工程师"], ["actress", "女演员"], ["actor", "男演员"], ["nurse", "护士"], ["driver", "司机"], ["singer", "歌手"], ["writer", "作家"]];
+const wy4x_u6 = [["T-shirt", "T恤"], ["skirt", "裙子"], ["shorts", "短裤"], ["shirt", "衬衫"], ["trousers", "裤子"], ["scarf", "围巾"], ["sweater", "毛衣"], ["dress", "连衣裙"], ["party", "聚会"], ["dressmaker", "裁缝"], ["wrong", "错误的"], ["clever", "聪明的"], ["whale", "鲸"], ["Mr", "先生"], ["uniform", "制服"], ["robe", "长袍"]];
+const wy4x_u5 = [["design", "设计"], ["hometown", "故乡"]];
+const wy4x_u4 = [["travel", "旅游"], ["tourist", "旅行者"], ["north", "北"], ["south", "南"], ["east", "东"], ["west", "西"], ["festival", "节日"], ["holiday", "假日"], ["flower", "花"], ["spring", "春天"], ["summer", "夏天"], ["autumn", "秋天"], ["winter", "冬天"], ["season", "季节"], ["picnic", "野餐"], ["plan", "计划"], ["seed", "种子"], ["plant", "种植"], ["grow", "生长"], ["clean", "清洁"], ["pick", "采摘"], ["nice", "美好的"], ["round", "圆的"], ["raindrop", "雨滴"], ["leaf", "叶子"], ["more", "更多的"], ["special", "特别的"], ["sunflower", "向日葵"], ["keeper", "保管人"], ["hey", "嘿"], ["dream", "梦"], ["lovely", "可爱的"], ["sleep", "睡"], ["student", "学生"], ["culture", "文化"], ["come true", "实现"], ["paper", "纸"], ["note", "笔记"]];
 const wy4x_u3 = [["shirt", "衬衫"], ["skirt", "裙子"], ["shorts", "短裤"], ["trousers", "裤子"], ["scarf", "围巾"], ["sweater", "毛衣"], ["dress", "连衣裙"], ["dressmaker", "裁缝"], ["wrong", "错误的"], ["clever", "聪明的"], ["whole", "整个的"], ["mr", "先生"], ["uniform", "制服"], ["robe", "长袍"]];
 const wy4x_u2 = [["shout", "喊叫"], ["life", "生活"], ["should", "应该"], ["mountain", "山"], ["laugh", "笑"], ["street", "街道"], ["sad", "悲伤的"], ["scared", "害怕的"], ["angry", "生气的"], ["excited", "兴奋的"], ["opera", "歌剧"], ["magic", "魔术"], ["next", "下一个"], ["puzzle", "谜语"], ["dancer", "舞者"], ["better", "更好的"], ["boy", "男孩"], ["gift", "礼物"], ["slowly", "慢慢地"], ["model", "模型"]];
 </script>
