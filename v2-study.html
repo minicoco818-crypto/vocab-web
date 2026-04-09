@@ -2970,7 +2970,9 @@ function renderUnitOptions(){
     list = [['','（待添加）']];
   }
 
+  const oldVal = unitSelect.value;
   unitSelect.innerHTML = '';
+  let found = false;
   list.forEach(([val,label],i)=>{
     const op = document.createElement('option');
     op.textContent = label;
@@ -2980,9 +2982,12 @@ function renderUnitOptions(){
     }else{
       op.value = val;
     }
-    if(i===0 && val) op.selected = true;
+    if(val === oldVal) { op.selected = true; found = true; }
     unitSelect.appendChild(op);
   });
+  if(!found && unitSelect.options.length > 0 && !unitSelect.options[0].disabled) {
+    unitSelect.options[0].selected = true;
+  }
   selectedUnit = unitSelect.value || selectedUnit || 'unit1';
 }
 
@@ -4254,6 +4259,29 @@ $("clearRankBtn").onclick=clearRank;
 spellInput.addEventListener('keydown',e=>{if(e.key==='Enter') submit();});
 renderRank();
 renderSpeakEvalHistory();
+
+(function syncFromHomeSelection(){
+  const sg = localStorage.getItem('vocab-grade');
+  const st = localStorage.getItem('vocab-term');
+  const su = localStorage.getItem('vocab-unit');
+  
+  if(sg && [...gradeSelect.options].some(o=>o.value===sg)) gradeSelect.value = sg;
+  if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
+  renderUnitOptions();
+  
+  let targetUnit = su;
+  if(!targetUnit || ![...unitSelect.options].some(o=>o.value===targetUnit)) {
+    if(sg === 'wy4') targetUnit = 'wy4x_u1';
+    else if(unitSelect.options.length > 0) targetUnit = unitSelect.options[0].value;
+  }
+  
+  if(targetUnit && [...unitSelect.options].some(o=>o.value===targetUnit)) {
+    unitSelect.value = targetUnit;
+  }
+  selectedUnit = unitSelect.value || selectedUnit || 'unit1';
+  updateStudyUnitTag();
+})();
+
 renderBookOptions();
 renderUnitOptions();
 startStudy();
@@ -4380,31 +4408,4 @@ window.showSummary = function() {
 </div>
 
 <script>
-(function syncFromHomeSelection(){
-  const sg = localStorage.getItem('vocab-grade');
-  const st = localStorage.getItem('vocab-term');
-  const su = localStorage.getItem('vocab-unit');
-  
-  if(sg && [...gradeSelect.options].some(o=>o.value===sg)) gradeSelect.value = sg;
-  if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
-  renderUnitOptions();
-  
-  // Try exact unit match first
-  let targetUnit = su;
-  
-  // If no unit or special wy4 unit not found, default to first available
-  if(!targetUnit || ![...unitSelect.options].some(o=>o.value===targetUnit)) {
-    if(sg === 'wy4') targetUnit = 'wy4x_u1';
-    else if(unitSelect.options.length > 0) targetUnit = unitSelect.options[0].value;
-  }
-  
-  if(targetUnit && [...unitSelect.options].some(o=>o.value===targetUnit)) {
-    unitSelect.value = targetUnit;
-  }
-  
-  selectedUnit = unitSelect.value || selectedUnit || 'unit1';
-  updateStudyUnitTag();
-  applyUnitBank();
-  startStudy();
-  startDict();
-})();
+

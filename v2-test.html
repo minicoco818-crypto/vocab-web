@@ -1210,7 +1210,9 @@ function renderUnitOptions(){
     list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
   }
 
+  const oldVal = unitSelect.value;
   unitSelect.innerHTML = '';
+  let found = false;
   list.forEach(([val,label],i)=>{
     const op = document.createElement('option');
     op.textContent = label;
@@ -1220,9 +1222,12 @@ function renderUnitOptions(){
     }else{
       op.value = val;
     }
-    if(i===0 && val) op.selected = true;
+    if(val === oldVal) { op.selected = true; found = true; }
     unitSelect.appendChild(op);
   });
+  if(!found && unitSelect.options.length > 0 && !unitSelect.options[0].disabled) {
+    unitSelect.options[0].selected = true;
+  }
   selectedUnit = unitSelect.value || selectedUnit || 'unit1';
 }
 
