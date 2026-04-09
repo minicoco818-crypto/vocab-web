@@ -4260,6 +4260,15 @@ spellInput.addEventListener('keydown',e=>{if(e.key==='Enter') submit();});
 renderRank();
 renderSpeakEvalHistory();
 
+renderBookOptions();
+renderUnitOptions();
+
+
+// 锁定学习区题库选择 (如同检测区)
+if(gradeSelect){ gradeSelect.disabled = true; gradeSelect.onchange = null; }
+if(termSelect){ termSelect.disabled = true; termSelect.onchange = null; }
+if(unitSelect){ unitSelect.disabled = true; unitSelect.onchange = null; }
+
 (function syncFromHomeSelection(){
   const sg = localStorage.getItem('vocab-grade');
   const st = localStorage.getItem('vocab-term');
@@ -4269,21 +4278,12 @@ renderSpeakEvalHistory();
   if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
   renderUnitOptions();
   
-  let targetUnit = su;
-  if(!targetUnit || ![...unitSelect.options].some(o=>o.value===targetUnit)) {
-    if(sg === 'wy4') targetUnit = 'wy4x_u1';
-    else if(unitSelect.options.length > 0) targetUnit = unitSelect.options[0].value;
-  }
-  
-  if(targetUnit && [...unitSelect.options].some(o=>o.value===targetUnit)) {
-    unitSelect.value = targetUnit;
-  }
+  if(su && [...unitSelect.options].some(o=>o.value===su)) unitSelect.value = su;
   selectedUnit = unitSelect.value || selectedUnit || 'unit1';
   updateStudyUnitTag();
+  applyUnitBank();
 })();
 
-renderBookOptions();
-renderUnitOptions();
 startStudy();
 startDict();
 resetMorphIdle();
@@ -4334,42 +4334,9 @@ window.showSummary = function() {
     });
   });
 
-  // Re-bind selectors
-  gradeSelect.onchange = function() {
-    renderUnitOptions();
-    origStartStudy();
-    document.getElementById('studyActionsBeforeStart').style.display = 'none';
-    document.getElementById('studyActionsAfterStart').style.display = 'flex';
-    showStudyArea();
-    resetMorphIdle();
-  };
-  termSelect.onchange = function() {
-    renderUnitOptions();
-    origStartStudy();
-    document.getElementById('studyActionsBeforeStart').style.display = 'none';
-    document.getElementById('studyActionsAfterStart').style.display = 'flex';
-    showStudyArea();
-    resetMorphIdle();
-  };
-  unitSelect.onchange = function() {
-    selectedUnit = unitSelect.value || selectedUnit || 'unit1';
-    updateStudyUnitTag();
-    origStartStudy();
-    document.getElementById('studyActionsBeforeStart').style.display = 'none';
-    document.getElementById('studyActionsAfterStart').style.display = 'flex';
-    showStudyArea();
-    resetMorphIdle();
-  };
+  // 注意：学习区题库选择逻辑完全跟随检测区，不在增强脚本里二次重绑/二次初始化
+  // 避免把首页同步过来的外研4选择覆盖回默认七年级。
 
-  // Init
-  renderBookOptions();
-  renderUnitOptions();
-  origStartStudy();
-  document.getElementById('studyActionsBeforeStart').style.display = 'none';
-  document.getElementById('studyActionsAfterStart').style.display = 'flex';
-  showStudyArea();
-  // Trigger startStudy on load
-  origStartStudy();
 })();
 </script>
 
