@@ -4376,13 +4376,31 @@ window.showSummary = function() {
 (function(){
   function applyBankFromEntry(){
     const bank = localStorage.getItem('vocab-bank');
-    
     const savedGrade = localStorage.getItem('vocab-grade');
     const savedTerm = localStorage.getItem('vocab-term');
     const savedUnit = localStorage.getItem('vocab-unit');
+    
+    // Handle wy4 first - if selected in homepage, go directly to wy4
+    if(savedGrade === 'wy4' || bank === 'wy4x'){
+      if(gradeSelect) gradeSelect.value = 'wy4';
+      if(termSelect) termSelect.value = savedTerm || 'x';
+      if(typeof renderUnitOptions === 'function') renderUnitOptions();
+      if(unitSelect){
+        const targetUnit = savedUnit || 'wy4x_u1';
+        const hasOption = [...unitSelect.options].some(o => o.value === targetUnit);
+        if(hasOption) unitSelect.value = targetUnit;
+        else unitSelect.value = 'wy4x_u1';
+      }
+      selectedUnit = unitSelect?.value || 'wy4x_u1';
+      if(typeof updateStudyUnitTag === 'function') updateStudyUnitTag();
+      if(typeof startStudy === 'function') startStudy();
+      if(typeof startDict === 'function') startDict();
+      return;
+    }
+    
     if(!bank && !savedGrade && !savedUnit) return;
 
-    let grade='g7', term='x', unit='unit8', bank=localStorage.getItem('vocab-bank');
+    let grade='g7', term='x', unit='unit8';
 
     // 优先使用首页精确保存的选择
     if(savedGrade) grade = savedGrade;
@@ -4417,7 +4435,7 @@ window.showSummary = function() {
       }
     }
 
-    if(grade==='wy4' || bank==='wy4x'){grade='wy4';term=savedTerm||'x';unit=savedUnit||'wy4x_u1';}
+    
     if(gradeSelect) gradeSelect.value = grade;
     if(termSelect) termSelect.value = term;
     if(typeof renderUnitOptions === 'function') renderUnitOptions();
