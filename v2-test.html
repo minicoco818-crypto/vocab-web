@@ -94,7 +94,7 @@
 
 <div class="card settings-card">
   <div class="course-bar">
-    <select id="bookSelect" style="display:none"></select>
+    <select id="bookSelect"></select>
     <select id="gradeSelect">
       <option value="g1">1年级</option><option value="g2">2年级</option><option value="g3">3年级</option><option value="g4">4年级</option><option value="g5">5年级</option><option value="g6">6年级</option><option value="g7" selected>7年级</option><option value="g8">8年级</option><option value="g9">9年级</option>
         <option value="wy4">外研4</option>
@@ -2398,15 +2398,11 @@ dictInput.addEventListener('keydown',e=>{
   if(!dictChecked) submitDict();
   else nextDict();
 });
-bookSelect.onchange=()=>{ renderBookOptions(); renderUnitOptions(); startStudy(); startDict(); resetMorphIdle(); };
-gradeSelect.onchange=()=>{ renderUnitOptions(); startStudy(); startDict(); resetMorphIdle(); };
-termSelect.onchange=()=>{ renderUnitOptions(); startStudy(); startDict(); resetMorphIdle(); };
-unitSelect.onchange=()=>{ selectedUnit = unitSelect.value || selectedUnit || 'unit1'; updateStudyUnitTag(); startStudy(); startDict(); resetMorphIdle(); };
+bookSelect.onchange=()=>{ localStorage.setItem('vocab-book', bookSelect.value||'builtin'); renderBookOptions(); renderUnitOptions(); localStorage.setItem('vocab-grade', gradeSelect.value||'g7'); localStorage.setItem('vocab-term', termSelect.value||'x'); localStorage.setItem('vocab-unit', unitSelect.value||''); startStudy(); startDict(); resetMorphIdle(); };
+gradeSelect.onchange=()=>{ localStorage.setItem('vocab-grade', gradeSelect.value||'g7'); renderUnitOptions(); localStorage.setItem('vocab-term', termSelect.value||'x'); localStorage.setItem('vocab-unit', unitSelect.value||''); startStudy(); startDict(); resetMorphIdle(); };
+termSelect.onchange=()=>{ localStorage.setItem('vocab-term', termSelect.value||'x'); renderUnitOptions(); localStorage.setItem('vocab-unit', unitSelect.value||''); startStudy(); startDict(); resetMorphIdle(); };
+unitSelect.onchange=()=>{ localStorage.setItem('vocab-unit', unitSelect.value||''); selectedUnit = unitSelect.value || selectedUnit || 'unit1'; updateStudyUnitTag(); startStudy(); startDict(); resetMorphIdle(); };
 
-// 锁定检测区题库选择
-if(gradeSelect){ gradeSelect.disabled = true; gradeSelect.onchange = null; }
-if(termSelect){ termSelect.disabled = true; termSelect.onchange = null; }
-if(unitSelect){ unitSelect.disabled = true; unitSelect.onchange = null; }
 addBookBtn.onclick=addCustomBook;
 deleteBookBtn.onclick=deleteCurrentBook;
 importWordsBtn.onclick=importCurrentUnit;
@@ -2420,9 +2416,12 @@ renderBookOptions();
 renderUnitOptions();
 
 (function syncFromHomeSelection(){
+  const sb = localStorage.getItem('vocab-book');
   const sg = localStorage.getItem('vocab-grade');
   const st = localStorage.getItem('vocab-term');
   const su = localStorage.getItem('vocab-unit');
+  if(sb && [...bookSelect.options].some(o=>o.value===sb)) bookSelect.value = sb;
+  renderBookOptions();
   if(sg && [...gradeSelect.options].some(o=>o.value===sg)) gradeSelect.value = sg;
   if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
   renderUnitOptions();

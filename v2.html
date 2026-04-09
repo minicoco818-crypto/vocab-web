@@ -45,7 +45,7 @@
 
         <!-- 直接复制学习区同款结构 -->
         <div class="course-bar">
-          <select id="bookSelect" style="display:none"></select>
+          <select id="bookSelect"></select>
           <select id="gradeSelect">
             <option value="g1">1年级</option>
             <option value="g2">2年级</option>
@@ -88,14 +88,50 @@
     const gradeSelect = document.getElementById('gradeSelect');
     const termSelect = document.getElementById('termSelect');
     const unitSelect = document.getElementById('unitSelect');
+    const bookSelect = document.getElementById('bookSelect');
     const curBankName = document.getElementById('curBankName');
 
+    const CUSTOM_BOOKS_KEY = 'custom_books_menu_v1';
+    function loadCustomBooks(){
+      try{ return JSON.parse(localStorage.getItem(CUSTOM_BOOKS_KEY) || '{}') || {}; }catch{ return {}; }
+    }
+    function isCustomBookValue(v){ return String(v||'').startsWith('custom:'); }
+    function getSelectedCustomBook(){
+      const v = bookSelect?.value || '';
+      if(!isCustomBookValue(v)) return null;
+      return loadCustomBooks()[v.replace(/^custom:/,'')] || null;
+    }
+
+    function renderBookOptions(){
+      const prev = bookSelect.value || localStorage.getItem('vocab-book') || 'builtin';
+      const customBooks = Object.values(loadCustomBooks());
+      bookSelect.innerHTML = '';
+      [['builtin','内置题库']].concat(customBooks.map(b=>[`custom:${b.id}`, b.name])).forEach(([val,label])=>{
+        const op = document.createElement('option');
+        op.value = val;
+        op.textContent = label;
+        bookSelect.appendChild(op);
+      });
+      bookSelect.value = [...bookSelect.options].some(op=>op.value===prev) ? prev : 'builtin';
+      gradeSelect.style.display = bookSelect.value==='builtin' ? '' : 'none';
+    }
+
+    function customUnitKey(bookId, term, u){ return `custom:${bookId}:${term}:u${u}`; }
+
     function renderUnitOptions(){
+      const oldVal = unitSelect.value || '';
       const grade = gradeSelect.value || 'g7';
       const term = termSelect.value || 'x';
       let list = [];
 
-      if(/^g[1-6]$/.test(grade)){
+      if(bookSelect.value !== 'builtin'){
+        const book = getSelectedCustomBook();
+        const units = book?.terms?.[term] || {};
+        const nums = Object.keys(units).length
+          ? Object.keys(units).map(k=>Number(String(k).replace(/^u/,''))).filter(Boolean).sort((a,b)=>a-b)
+          : Array.from({length:10},(_,i)=>i+1);
+        list = nums.map(u=>[customUnitKey(book.id, term, u), `Unit ${u}`]);
+      }else if(/^g[1-6]$/.test(grade)){
         const g = grade.slice(1);
         list = Array.from({length:10}, (_,i)=>{
           const u=i+1;
@@ -116,7 +152,7 @@
         list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
       }else if(grade==='g8' || grade==='g9'){
         const g = grade.slice(1);
-        const maxUnits = (grade==='g8') ? 8 : 14; // 八年级上下册都只保留 Unit 1~8
+        const maxUnits = (grade==='g8') ? 8 : 14;
         list = Array.from({length:maxUnits}, (_,i)=>{
           const u=i+1;
           return [`g${g}${term}_u${u}`, `Unit ${u}`];
@@ -124,66 +160,70 @@
       }
 
       unitSelect.innerHTML = '';
+      let found = false;
       list.forEach(([val,label],i)=>{
         const op = document.createElement('option');
         op.value = val;
         op.textContent = label;
-        if(i===0) op.selected = true;
+        if(val === oldVal){ op.selected = true; found = true; }
+        else if(!oldVal && i===0){ op.selected = true; found = true; }
         unitSelect.appendChild(op);
       });
-
+      if(!found && unitSelect.options.length>0) unitSelect.options[0].selected = true;
       updateCurrentText();
     }
 
     function buildBankCode(){
+      const bookVal = bookSelect.value || 'builtin';
       const g = gradeSelect.value;
       const t = termSelect.value;
       const u = unitSelect.value || '';
 
+      if(bookVal !== 'builtin') return bookVal;
       if(/^g[1-6]$/.test(g)) return `${g}${t}`;
-
       if(g==='g7'){
         if(/^starter[123]$/.test(u)) return `g7${u}`;
         const m = u.match(/^unit(\d+)$/);
         if(m) return `g7u${m[1]}`;
       }
-
-      if((g==='g8' || g==='g9') && /^g[89][sx]_u\d+$/i.test(u)){
-        return u.replace('_u','-u');
-      }
-
+      if((g==='g8' || g==='g9') && /^g[89][sx]_u\d+$/i.test(u)) return u.replace('_u','-u');
       if(g==='wy4') return 'wy4x';
-
       return `${g}${t}`;
     }
 
     function updateCurrentText(){
+      const bookText = bookSelect.options[bookSelect.selectedIndex]?.text || '内置题库';
       const gtxt = gradeSelect.options[gradeSelect.selectedIndex]?.text || '';
       const ttxt = termSelect.options[termSelect.selectedIndex]?.text || '';
       const utxt = unitSelect.options[unitSelect.selectedIndex]?.text || '';
-      curBankName.textContent = `${gtxt} · ${ttxt} · ${utxt}`;
+      curBankName.textContent = bookSelect.value==='builtin' ? `${gtxt} · ${ttxt} · ${utxt}` : `${bookText} · ${ttxt} · ${utxt}`;
     }
 
     function goWithBank(){
       const bank = buildBankCode();
       localStorage.setItem('vocab-bank', bank);
-      console.log('DEBUG v2 goWithBank: bank=', bank, 'grade=', gradeSelect.value, 'term=', termSelect.value, 'unit=', unitSelect.value);
+      localStorage.setItem('vocab-book', bookSelect.value || 'builtin');
       localStorage.setItem('vocab-grade', gradeSelect.value);
       localStorage.setItem('vocab-term', termSelect.value);
       localStorage.setItem('vocab-unit', unitSelect.value || '');
       return true;
     }
 
+    bookSelect.onchange = ()=>{ renderBookOptions(); renderUnitOptions(); updateCurrentText(); };
     gradeSelect.onchange = renderUnitOptions;
     termSelect.onchange = renderUnitOptions;
     unitSelect.onchange = updateCurrentText;
 
     (function init(){
+      const sb = localStorage.getItem('vocab-book');
       const sg = localStorage.getItem('vocab-grade');
       const st = localStorage.getItem('vocab-term');
       const su = localStorage.getItem('vocab-unit');
+      renderBookOptions();
+      if(sb && [...bookSelect.options].some(o=>o.value===sb)) bookSelect.value = sb;
       if(sg && [...gradeSelect.options].some(o=>o.value===sg)) gradeSelect.value = sg;
       if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
+      renderBookOptions();
       renderUnitOptions();
       if(su && [...unitSelect.options].some(o=>o.value===su)) unitSelect.value = su;
       updateCurrentText();
