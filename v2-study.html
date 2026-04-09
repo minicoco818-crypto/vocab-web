@@ -4380,104 +4380,31 @@ window.showSummary = function() {
 </div>
 
 <script>
-(function(){
-  function applyBankFromEntry(){
-  console.log('applyBankFromEntry called');
-    const bank = localStorage.getItem('vocab-bank');
-    const savedGrade = localStorage.getItem('vocab-grade');
-    const savedTerm = localStorage.getItem('vocab-term');
-    const savedUnit = localStorage.getItem('vocab-unit');
-    console.log('DEBUG applyBank: bank=', bank, 'type=', typeof bank, 
-      'savedGrade=', savedGrade, 'type=', typeof savedGrade,
-      'savedTerm=', savedTerm, 'type=', typeof savedTerm,
-      'savedUnit=', savedUnit, 'type=', typeof savedUnit);
-    
-    // Handle wy4 first - if selected in homepage, go directly to wy4
-    console.log('wy4 condition: savedGrade==="wy4" is', savedGrade === 'wy4', ', bank==="wy4x" is', bank === 'wy4x');
-    if(savedGrade === 'wy4' || bank === 'wy4x'){
-      if(gradeSelect) gradeSelect.value = 'wy4';
-      if(termSelect) termSelect.value = savedTerm || 'x';
-      if(typeof renderUnitOptions === 'function') renderUnitOptions();
-      if(unitSelect){
-        const targetUnit = savedUnit || 'wy4x_u1';
-        const hasOption = [...unitSelect.options].some(o => o.value === targetUnit);
-        if(hasOption) unitSelect.value = targetUnit;
-        else unitSelect.value = 'wy4x_u1';
-      }
-      selectedUnit = unitSelect?.value || 'wy4x_u1';
-      if(typeof updateStudyUnitTag === 'function') updateStudyUnitTag();
-      if(typeof startStudy === 'function') startStudy();
-      if(typeof startDict === 'function') startDict();
-      return;
-    }
-    
-    if(!bank && !savedGrade && !savedUnit) return;
-
-    let grade='g7', term='x', unit='unit8';
-
-    // 优先使用首页精确保存的选择
-    if(savedGrade) grade = savedGrade;
-    if(savedTerm) term = savedTerm;
-    if(savedUnit) unit = savedUnit;
-
-    // 若缺少精确值，再按 bank 反推
-    if(!savedUnit){
-      if(/^g[1-6][sx]$/.test(bank||'')){
-        grade = bank.slice(0,2);
-        term = bank.slice(2);
-        unit = `${grade}${term}_u1`;
-      } else if(/^g[1-6]$/.test(bank||'')){
-        grade = bank;
-        term = 's';
-        unit = `${bank}s_u1`;
-      } else if(/^g7starter[123]$/.test(bank||'')){
-        grade='g7'; term='s'; unit = bank.replace('g7','');
-      } else if(/^g7u(\d+)$/.test(bank||'')){
-        const n = Number((bank||'').match(/^g7u(\d+)$/)[1]);
-        grade='g7';
-        if(n<=7){ term='s'; unit=`unit${n}`; }
-        else { term='x'; unit=`unit${n}`; }
-      } else if(/^g8[sx][-_]u\d+$/i.test(bank||'')){
-        const m = (bank||'').match(/^g8([sx])[-_]u(\d+)$/i);
-        if(m){ grade='g8'; term=m[1].toLowerCase(); unit=`g8${term}_u${Number(m[2])}`; }
-      } else if(/^g9[sx][-_]u\d+$/i.test(bank||'')){
-        const m = (bank||'').match(/^g9([sx])[-_]u(\d+)$/i);
-        if(m){ grade='g9'; term=m[1].toLowerCase(); unit=`g9${term}_u${Number(m[2])}`; }
-      } else if(bank==='ket' || bank==='pet'){
-        grade='g9'; term='s'; unit='g9s_u1';
-      }
-    }
-
-    
-    if(gradeSelect) gradeSelect.value = grade;
-    if(termSelect) termSelect.value = term;
-    if(typeof renderUnitOptions === 'function') renderUnitOptions();
-
-    if(unitSelect){
-      const has = [...unitSelect.options].some(o=>o.value===unit);
-      unitSelect.value = has ? unit : (unitSelect.value || (unitSelect.options[0] && unitSelect.options[0].value) || 'unit1');
-      selectedUnit = unitSelect.value || selectedUnit || 'unit1';
-    }
-
-    if(typeof updateStudyUnitTag === 'function') updateStudyUnitTag();
-    if(typeof startStudy === 'function') startStudy();
-    if(typeof startDict === 'function') startDict();
-    if(typeof resetMorphIdle === 'function') resetMorphIdle();
-
-    // 屏蔽学习区题库选择功能（暂时禁用交互）
-    if(gradeSelect){ gradeSelect.disabled = true; gradeSelect.onchange = null; }
-    if(termSelect){ termSelect.disabled = true; termSelect.onchange = null; }
-    if(unitSelect){ unitSelect.disabled = true; unitSelect.onchange = null; }
+(function syncFromHomeSelection(){
+  const sg = localStorage.getItem('vocab-grade');
+  const st = localStorage.getItem('vocab-term');
+  const su = localStorage.getItem('vocab-unit');
+  
+  if(sg && [...gradeSelect.options].some(o=>o.value===sg)) gradeSelect.value = sg;
+  if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
+  renderUnitOptions();
+  
+  // Try exact unit match first
+  let targetUnit = su;
+  
+  // If no unit or special wy4 unit not found, default to first available
+  if(!targetUnit || ![...unitSelect.options].some(o=>o.value===targetUnit)) {
+    if(sg === 'wy4') targetUnit = 'wy4x_u1';
+    else if(unitSelect.options.length > 0) targetUnit = unitSelect.options[0].value;
   }
-
-  const summaryRetryWeakBtn = document.getElementById('summaryRetryWeakBtn');
-  if(summaryRetryWeakBtn){
-    summaryRetryWeakBtn.onclick = function(){
-      const m = document.getElementById('summaryModal');
-      if(m) m.style.display='none';
-      if(typeof startStudyWeakRetry === 'function') startStudyWeakRetry();
-    };
+  
+  if(targetUnit && [...unitSelect.options].some(o=>o.value===targetUnit)) {
+    unitSelect.value = targetUnit;
   }
-
-  setTimeout(applyBankFromEntry, 0);
+  
+  selectedUnit = unitSelect.value || selectedUnit || 'unit1';
+  updateStudyUnitTag();
+  applyUnitBank();
+  startStudy();
+  startDict();
 })();
