@@ -4108,7 +4108,7 @@ function saveRank(){
 }
 
 function renderRank(){
-  const body=$("rankBody"), key="unit1_rank_v1"; body.innerHTML="";
+  const body=$("rankBody"), key="unit1_rank_v1"; if(!body) return; body.innerHTML="";
   const rows=JSON.parse(localStorage.getItem(key)||"[]");
   rows.forEach(r=>{
     const tr=document.createElement("tr");
