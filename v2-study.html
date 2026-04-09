@@ -3005,6 +3005,8 @@ function getStudyWords(unit){
       return [...(CUSTOM_BOOKS[bookId]?.terms?.[term]?.[`u${u}`] || [])];
     }
   }
+  // 外研4内置单元始终优先使用内置词库，避免历史自定义覆盖导致词条变少
+  if(/^wy4x_u\d+$/.test(String(unit||''))) return [...(ALL_UNITS[unit] || [])];
   if(CUSTOM_OVERRIDES[unit]) return [...CUSTOM_OVERRIDES[unit]];
   return [...(ALL_UNITS[unit] || UNIT1_WORDS)];
 }
