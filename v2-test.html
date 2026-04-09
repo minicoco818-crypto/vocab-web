@@ -98,6 +98,7 @@
     <select id="gradeSelect">
       <option value="g1">1年级</option><option value="g2">2年级</option><option value="g3">3年级</option><option value="g4">4年级</option><option value="g5">5年级</option><option value="g6">6年级</option><option value="g7" selected>7年级</option><option value="g8">8年级</option><option value="g9">9年级</option>
         <option value="wy4">外研4</option>
+            <option value="xsc">小升初</option>
     </select>
     <select id="termSelect"><option value="s">上册</option><option value="x" selected>下册</option></select>
     <select id="unitSelect"><option value="unit1">Unit 1</option></select>
@@ -782,6 +783,14 @@ let ALL_UNITS = {
   unit13: G7_UNIT13_WORDS,
   unit14: G7_UNIT14_WORDS,
   unit15: G7_UNIT15_WORDS,
+  xsc_u1: G7_UNIT8_WORDS,
+  xsc_u2: G7_UNIT9_WORDS,
+  xsc_u3: G7_UNIT10_WORDS,
+  xsc_u4: G7_UNIT11_WORDS,
+  xsc_u5: G7_UNIT12_WORDS,
+  xsc_u6: G7_UNIT13_WORDS,
+  xsc_u7: G7_UNIT14_WORDS,
+  xsc_u8: G7_UNIT15_WORDS,
   ...G1S,
   ...G1X,
   ...G2S,
@@ -1206,8 +1215,12 @@ function renderUnitOptions(){
       const u=i+1;
       return [`g${g}${term}_u${u}`, `Unit ${u}`];
     });
-  }else{
+  }else if(grade==='wy4'){
     list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
+  }else if(grade==='xsc'){
+    list = Array.from({length:8}, (_,i)=>{const u=i+1;return [`xsc_u${u}`, `Unit ${u}`];});
+  }else{
+    list = [['','（待添加）']];
   }
 
   const oldVal = unitSelect.value;
@@ -1247,6 +1260,7 @@ function getStudyWords(unit){
   }
   // 外研4内置单元始终优先使用内置词库，避免历史自定义覆盖导致词条变少
   if(/^wy4x_u\d+$/.test(String(unit||''))) return [...(ALL_UNITS[unit] || [])];
+  if(/^xsc_u\d+$/.test(String(unit||''))) return [...(ALL_UNITS[unit] || [])];
   if(CUSTOM_OVERRIDES[unit]) return [...CUSTOM_OVERRIDES[unit]];
   return [...(ALL_UNITS[unit] || UNIT1_WORDS)];
 }

@@ -57,6 +57,7 @@
             <option value="g8">8年级</option>
             <option value="g9">9年级</option>
             <option value="wy4">外研4</option>
+            <option value="xsc">小升初</option>
           </select>
           <select id="termSelect">
             <option value="s">上册</option>
@@ -150,6 +151,8 @@
         }
       }else if(grade==='wy4'){
         list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
+      }else if(grade==='xsc'){
+        list = Array.from({length:8}, (_,i)=>{const u=i+1;return [`xsc_u${u}`, `Unit ${u}`];});
       }else if(grade==='g8' || grade==='g9'){
         const g = grade.slice(1);
         const maxUnits = (grade==='g8') ? 8 : 14;
@@ -188,6 +191,7 @@
       }
       if((g==='g8' || g==='g9') && /^g[89][sx]_u\d+$/i.test(u)) return u.replace('_u','-u');
       if(g==='wy4') return 'wy4x';
+      if(g==='xsc') return 'xsc';
       return `${g}${t}`;
     }
 
