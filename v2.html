@@ -167,6 +167,7 @@
     function goWithBank(){
       const bank = buildBankCode();
       localStorage.setItem('vocab-bank', bank);
+      console.log('DEBUG v2 goWithBank: bank=', bank, 'grade=', gradeSelect.value, 'term=', termSelect.value, 'unit=', unitSelect.value);
       localStorage.setItem('vocab-grade', gradeSelect.value);
       localStorage.setItem('vocab-term', termSelect.value);
       localStorage.setItem('vocab-unit', unitSelect.value || '');
