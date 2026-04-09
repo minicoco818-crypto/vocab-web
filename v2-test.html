@@ -1393,6 +1393,7 @@ let ALL_UNITS = {
   unit13: G7_UNIT13_WORDS,
   unit14: G7_UNIT14_WORDS,
   unit15: G7_UNIT15_WORDS,
+  // 兼容旧键（未区分上下册）
   xsc_u1: XSC_U1_WORDS,
   xsc_u2: XSC_U2_WORDS,
   xsc_u3: XSC_U3_WORDS,
@@ -1401,6 +1402,23 @@ let ALL_UNITS = {
   xsc_u6: XSC_U6_WORDS,
   xsc_u7: XSC_U7_WORDS,
   xsc_u8: XSC_U8_WORDS,
+  // 小升初上下册独立键（当前先同词表，后续可分别维护）
+  xscs_u1: XSC_U1_WORDS,
+  xscs_u2: XSC_U2_WORDS,
+  xscs_u3: XSC_U3_WORDS,
+  xscs_u4: XSC_U4_WORDS,
+  xscs_u5: XSC_U5_WORDS,
+  xscs_u6: XSC_U6_WORDS,
+  xscs_u7: XSC_U7_WORDS,
+  xscs_u8: XSC_U8_WORDS,
+  xscx_u1: XSC_U1_WORDS,
+  xscx_u2: XSC_U2_WORDS,
+  xscx_u3: XSC_U3_WORDS,
+  xscx_u4: XSC_U4_WORDS,
+  xscx_u5: XSC_U5_WORDS,
+  xscx_u6: XSC_U6_WORDS,
+  xscx_u7: XSC_U7_WORDS,
+  xscx_u8: XSC_U8_WORDS,
   ...G1S,
   ...G1X,
   ...G2S,
@@ -1828,7 +1846,7 @@ function renderUnitOptions(){
   }else if(grade==='wy4'){
     list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
   }else if(grade==='xsc'){
-    list = Array.from({length:8}, (_,i)=>{const u=i+1;return [`xsc_u${u}`, `Unit ${u}`];});
+    list = Array.from({length:8}, (_,i)=>{const u=i+1;return [`xsc${term}_u${u}`, `Unit ${u}`];});
   }else{
     list = [['','（待添加）']];
   }
@@ -1870,6 +1888,7 @@ function getStudyWords(unit){
   }
   // 外研4内置单元始终优先使用内置词库，避免历史自定义覆盖导致词条变少
   if(/^wy4x_u\d+$/.test(String(unit||''))) return [...(ALL_UNITS[unit] || [])];
+  if(/^xsc[sx]_u\d+$/.test(String(unit||''))) return [...(ALL_UNITS[unit] || [])];
   if(/^xsc_u\d+$/.test(String(unit||''))) return [...(ALL_UNITS[unit] || [])];
   if(CUSTOM_OVERRIDES[unit]) return [...CUSTOM_OVERRIDES[unit]];
   return [...(ALL_UNITS[unit] || UNIT1_WORDS)];
