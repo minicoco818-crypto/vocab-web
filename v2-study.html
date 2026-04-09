@@ -4382,6 +4382,7 @@ window.showSummary = function() {
 <script>
 (function(){
   function applyBankFromEntry(){
+  console.log('applyBankFromEntry called');
     const bank = localStorage.getItem('vocab-bank');
     const savedGrade = localStorage.getItem('vocab-grade');
     const savedTerm = localStorage.getItem('vocab-term');
@@ -4390,10 +4391,9 @@ window.showSummary = function() {
       'savedGrade=', savedGrade, 'type=', typeof savedGrade,
       'savedTerm=', savedTerm, 'type=', typeof savedTerm,
       'savedUnit=', savedUnit, 'type=', typeof savedUnit);
-    const savedTerm = localStorage.getItem('vocab-term');
-    const savedUnit = localStorage.getItem('vocab-unit');
     
     // Handle wy4 first - if selected in homepage, go directly to wy4
+    console.log('wy4 condition: savedGrade==="wy4" is', savedGrade === 'wy4', ', bank==="wy4x" is', bank === 'wy4x');
     if(savedGrade === 'wy4' || bank === 'wy4x'){
       if(gradeSelect) gradeSelect.value = 'wy4';
       if(termSelect) termSelect.value = savedTerm || 'x';
