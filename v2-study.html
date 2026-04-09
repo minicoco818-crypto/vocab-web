@@ -4383,6 +4383,7 @@ window.showSummary = function() {
 (function(){
   function applyBankFromEntry(){
     const bank = localStorage.getItem('vocab-bank');
+    console.log('DEBUG applyBank: bank=', bank, 'savedGrade=', savedGrade, 'savedTerm=', savedTerm, 'savedUnit=', savedUnit);
     const savedGrade = localStorage.getItem('vocab-grade');
     const savedTerm = localStorage.getItem('vocab-term');
     const savedUnit = localStorage.getItem('vocab-unit');
