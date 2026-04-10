@@ -4216,7 +4216,10 @@ function prevStudy(){
 }
 
 function nextStudyRoundOrFinish(){
-  if(studyHardQueue.length || studyFuzzyQueue.length){
+  const MAX_STUDY_ROUNDS = 2; // 首轮 + 1次重学轮
+  const hasPending = (studyHardQueue.length || studyFuzzyQueue.length);
+
+  if(hasPending && studyRound < MAX_STUDY_ROUNDS){
     studyRound += 1;
     if(studyHardQueue.length){
       studyRoundName = `复习轮${studyRound}（不会优先）`;
@@ -4233,13 +4236,10 @@ function nextStudyRoundOrFinish(){
     speakStudyWord();
     return;
   }
+
   className = $("className").value.trim() || "未命名班级";
   studentName = $("studentName").value.trim() || "匿名学生";
-  // No more words to review, show summary
-  if(!studyHardQueue.length && !studyFuzzyQueue.length){
-    setTimeout(function(){showSummary();},500);
-  }
-  startGame();
+  setTimeout(function(){showSummary();},500);
 }
 
 function goNextStudyWord(){
