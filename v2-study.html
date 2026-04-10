@@ -5035,4 +5035,18 @@ window.showSummary = function() {
 </div>
 
 <script>
+(() => {
+  const summaryRetryWeakBtn = document.getElementById('summaryRetryWeakBtn');
+  if(summaryRetryWeakBtn){
+    summaryRetryWeakBtn.onclick = function(){
+      const m = document.getElementById('summaryModal');
+      if(m) m.style.display='none';
+      if(typeof startStudyWeakRetry === 'function') startStudyWeakRetry();
+    };
+  }
+})();
+</script>
+
+</body>
+</html>
 
