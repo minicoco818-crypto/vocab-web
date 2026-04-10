@@ -4239,6 +4239,9 @@ function nextStudyRoundOrFinish(){
 
   className = $("className").value.trim() || "未命名班级";
   studentName = $("studentName").value.trim() || "匿名学生";
+  // 结束时清空当前轮队列，避免旧队列污染下一次“生字重学”
+  studyHardQueue = [];
+  studyFuzzyQueue = [];
   setTimeout(function(){showSummary();},500);
 }
 
@@ -4305,6 +4308,8 @@ function startStudyWeakRetry(){
     return;
   }
   studyWeakPool = uniq;
+  studyHardQueue = [];
+  studyFuzzyQueue = [];
   studyList = [...studyWeakPool];
   studyIdx = 0;
   studyRound = 1;
