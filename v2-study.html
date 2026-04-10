@@ -211,7 +211,7 @@ window.showSummary = function() {
   document.getElementById('sumRate').textContent = r + '%';
   var retryBtn = document.getElementById('summaryRetryWeakBtn');
   if(retryBtn){
-    retryBtn.style.display = (studyStats.fuzzy===0 && studyStats.hard===0) ? 'none' : '';
+    retryBtn.style.display = (studyWeakAll.length===0) ? 'none' : '';
   }
   document.getElementById('summaryModal').style.display = 'flex';
 };
@@ -3436,6 +3436,7 @@ let studyIdx=0;
 let studyHardQueue=[];
 let studyFuzzyQueue=[];
 let studyWeakPool=[]; // 生字重学临时题库（模糊+生字）
+let studyWeakAll=[];  // 全轮累计生字/模糊（用于总结页“生字重学”）
 let studyRound=1;
 let studyRoundName='首轮';
 let studyStats={know:0,fuzzy:0,hard:0};
@@ -4197,6 +4198,7 @@ function startStudy(){
   studyTotalTarget = studyList.length;
   studyHardQueue = [];
   studyFuzzyQueue = [];
+  studyWeakAll = [];
   studyRound = 1;
   studyRoundName = '首轮';
   studyStats = {know:0,fuzzy:0,hard:0};
@@ -4265,7 +4267,11 @@ function markStudyFuzzy(){
   studyStreak = 0;
   studyStats.fuzzy += 1;
   const cur = studyList[studyIdx];
-  if(cur) studyFuzzyQueue.push(cur);
+  if(cur){
+    studyFuzzyQueue.push(cur);
+    const k = `${cur[0]}|||${cur[1]}`;
+    if(!studyWeakAll.some(x=>`${x[0]}|||${x[1]}`===k)) studyWeakAll.push(cur);
+  }
   nextStudy();
 }
 
@@ -4274,12 +4280,16 @@ function markStudyHard(){
   studyStreak = 0;
   studyStats.hard += 1;
   const cur = studyList[studyIdx];
-  if(cur) studyHardQueue.push(cur);
+  if(cur){
+    studyHardQueue.push(cur);
+    const k = `${cur[0]}|||${cur[1]}`;
+    if(!studyWeakAll.some(x=>`${x[0]}|||${x[1]}`===k)) studyWeakAll.push(cur);
+  }
   nextStudy();
 }
 
 function startStudyWeakRetry(){
-  const merged = [...studyHardQueue, ...studyFuzzyQueue];
+  const merged = studyWeakAll.length ? [...studyWeakAll] : [...studyHardQueue, ...studyFuzzyQueue];
   const uniq = [];
   const seen = new Set();
   merged.forEach(item=>{
@@ -4952,7 +4962,7 @@ window.showSummary = function() {
   document.getElementById('sumRate').textContent = r + '%';
   var retryBtn = document.getElementById('summaryRetryWeakBtn');
   if(retryBtn){
-    retryBtn.style.display = (studyStats.fuzzy===0 && studyStats.hard===0) ? 'none' : '';
+    retryBtn.style.display = (studyWeakAll.length===0) ? 'none' : '';
   }
   document.getElementById('summaryModal').style.display = 'flex';
 };
