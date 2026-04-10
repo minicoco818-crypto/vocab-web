@@ -4216,10 +4216,7 @@ function prevStudy(){
 }
 
 function nextStudyRoundOrFinish(){
-  const MAX_STUDY_ROUNDS = 2; // 首轮 + 1次重学轮
-  const hasPending = (studyHardQueue.length || studyFuzzyQueue.length);
-
-  if(hasPending && studyRound < MAX_STUDY_ROUNDS){
+  if(studyHardQueue.length || studyFuzzyQueue.length){
     studyRound += 1;
     if(studyHardQueue.length){
       studyRoundName = `复习轮${studyRound}（不会优先）`;
@@ -4236,13 +4233,13 @@ function nextStudyRoundOrFinish(){
     speakStudyWord();
     return;
   }
-
   className = $("className").value.trim() || "未命名班级";
   studentName = $("studentName").value.trim() || "匿名学生";
-  // 结束时清空当前轮队列，避免旧队列污染下一次“生字重学”
-  studyHardQueue = [];
-  studyFuzzyQueue = [];
-  setTimeout(function(){showSummary();},500);
+  // No more words to review, show summary
+  if(!studyHardQueue.length && !studyFuzzyQueue.length){
+    setTimeout(function(){showSummary();},500);
+  }
+  startGame();
 }
 
 function goNextStudyWord(){
@@ -4256,10 +4253,7 @@ function goNextStudyWord(){
   nextStudyRoundOrFinish();
 }
 
-function nextStudy(){
-  if(!studyList.length) return;
-  goNextStudyWord();
-}
+function nextStudy(){ if(studyIdx>=studyList.length-1){setTimeout(showSummary,300);return;} goNextStudyWord();}
 
 function markStudyKnow(){
   studyStats.know += 1;
