@@ -4897,6 +4897,14 @@ addBookBtn.onclick=addCustomBook;
 deleteBookBtn.onclick=deleteCurrentBook;
 importWordsBtn.onclick=importCurrentUnit;
 exportWordsBtn.onclick=exportCurrentUnit;
+const summaryRetryWeakBtn = $("summaryRetryWeakBtn");
+if(summaryRetryWeakBtn){
+  summaryRetryWeakBtn.onclick = ()=>{
+    const modal = document.getElementById('summaryModal');
+    if(modal) modal.style.display = 'none';
+    startStudyWeakRetry();
+  };
+}
 $("refreshRankBtn").onclick=renderRank;
 $("clearRankBtn").onclick=clearRank;
 spellInput.addEventListener('keydown',e=>{if(e.key==='Enter') submit();});
