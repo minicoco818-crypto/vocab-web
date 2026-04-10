@@ -3073,6 +3073,14 @@ renderUnitOptions();
   applyUnitBank();
 })();
 
+(function lockBankSelectors(){
+  [bookSelect, gradeSelect, termSelect, unitSelect].forEach(el=>{
+    if(!el) return;
+    el.disabled = true;
+    el.onchange = null;
+  });
+})();
+
 startStudy();
 startDict();
 resetMorphIdle();
