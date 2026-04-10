@@ -4262,6 +4262,11 @@ function nextStudy(){
 
 function markStudyKnow(){
   studyStats.know += 1;
+  const cur = studyList[studyIdx];
+  if(cur && (studyRoundName==='生字重学' || /^复习轮/.test(studyRoundName))){
+    const k = `${cur[0]}|||${cur[1]}`;
+    studyWeakAll = studyWeakAll.filter(x=>`${x[0]}|||${x[1]}`!==k);
+  }
   nextStudy();
 }
 
@@ -4307,6 +4312,7 @@ function startStudyWeakRetry(){
     return;
   }
   studyWeakPool = uniq;
+  studyWeakAll = [...uniq];
   studyHardQueue = [];
   studyFuzzyQueue = [];
   studyList = [...studyWeakPool];
