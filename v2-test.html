@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成长教育学单词</title>
+  <style>
+    :root{--bg:#f7f4ee;--card:#fffdf9;--line:#ddd5c7;--text:#2f2a24;--muted:#6b6257;--ok:#2f855a;--bad:#c05648;--pri:#5a67d8;--warn:#d69e2e}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(120deg,#f7f4ee,#efe7dc);color:var(--text);font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.5}
+    .wrap{max-width:980px;margin:12px auto;padding:0 12px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 8px 18px rgba(90,80,60,.08)}
+    h1,h2{margin:0 0 6px} h1{font-size:26px;letter-spacing:.3px} h2{font-size:19px;text-align:left;padding-left:2px}
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .header-card{text-align:center;padding:16px 14px;position:relative;margin:0 auto 10px}
+    .back-home{position:absolute;left:14px;top:14px;display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border:1px solid #d8cfc1;border-radius:8px;background:#fffaf3;color:#2f2a24;text-decoration:none;font-size:13px;font-weight:600}
+    .settings-card{padding:10px 12px;margin:0 auto}
+    .course-bar{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:nowrap}
+    .course-bar select{flex:1;min-width:0;max-width:220px;height:42px;font-size:15px}
+    .focus-col{width:min(1013px, calc(100vw - 24px));margin:0 auto}
+    .header-card,.settings-card,#gameCard{width:100%;max-width:none;margin-left:0;margin-right:0}
+    .test-hint{text-align:center;font-size:13px;margin-top:6px}
+    .settings-form{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:8px;align-items:center}
+    input,select,textarea{background:#fffaf3;color:var(--text);border:1px solid #d8cfc1;border-radius:9px;padding:8px;min-width:0}
+    input,select{height:38px;width:100%}
+    textarea{width:100%;min-height:120px}
+    button{border:1px solid transparent;border-radius:9px;padding:8px 12px;color:#fff;font-weight:700;cursor:pointer;transition:all .18s ease}
+    .pri{background:#7b6ed6;border-color:#6f63c9}
+    .pri:hover{background:#6f63c9}
+    .ok{background:#4a8f72;border-color:#3f7f64}
+    .ok:hover{background:#3f7f64}
+    .warn{background:#d3a85d;color:#2f2a24;border-color:#c2974b}
+    .warn:hover{background:#c2974b}
+    .ghost{background:#f1e8da;color:#51463a;border-color:#d8cfc1}
+    .ghost:hover{background:#e8dcc9}
+    .q{font-size:24px;line-height:1.4;margin:10px 0}
+    .opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .opt{padding:10px;border:1px solid #d8cfc1;border-radius:10px;cursor:pointer;background:#fffaf3}
+    .opt:hover{border-color:#7b6ed6}
+    .fb{min-height:24px;font-weight:700;margin-top:6px}.good{color:#2f855a}.bad{color:#c05648}
+    table{width:100%;border-collapse:collapse} th,td{border-bottom:1px solid #ece1d3;padding:8px;text-align:left;font-size:14px}
+    .grid2{display:grid;grid-template-columns:1fr;gap:12px;max-width:100%;margin:0 auto}
+    #gameCard{margin:0 auto;min-height:720px}
+    .hud{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0 12px;justify-content:flex-start}
+    .pill{padding:6px 10px;border:1px solid #d8cfc1;border-radius:999px;background:#fffaf3;font-size:13px}
+    .bar{width:220px;height:10px;border-radius:999px;background:#ece1d3;overflow:hidden;border:1px solid #d8cfc1}
+    .bar>span{display:block;height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#3b82f6)}
+    .study-page{grid-column:1 / -1;text-align:center;padding:24px 20px}
+    .study-page .study-top{justify-content:center}
+    .study-page #studyWord{font-size:48px;font-weight:900;letter-spacing:.5px}
+    .study-page #studyIpa{font-size:20px}
+    .study-page #studyCn{font-size:20px}
+    .study-page #studySplit{font-size:19px}
+    .study-page #studyApprox{font-size:19px}
+    .study-page .card{max-width:960px;margin:12px auto 0;text-align:left;background:#fffaf6}
+    .study-meta-wrap{max-width:980px;margin:8px auto 0;display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:8px 20px;justify-items:center}
+    .study-meta-wrap > div{white-space:nowrap}
+    #studyQuizWrap{max-width:820px;margin:10px auto 0;padding:10px 12px;border:1px dashed #d8cfc1;border-radius:10px;background:#fffaf8}
+    #studyQuizWrap .row{justify-content:center}
+    #studyQuizInput::placeholder{color:#c7cdd8;text-align:center}
+    #studyQuizInput:focus{color:#6b7280}
+    @media (max-width:720px){.study-meta-wrap{grid-template-columns:1fr}}
+    #dictCard{text-align:center}
+    #dictCard .row{justify-content:center}
+    #gameCard{text-align:center}
+    #gameCard .row{justify-content:center}
+    #gameCard .hud{justify-content:center}
+    #gameCard .opts{justify-items:center}
+    #gameCard .opt{text-align:center}
+    /* 检测卡片内容同步放大 */
+    #gameCard .q{font-size:44px}
+    #gameCard .pill{font-size:20px;padding:10px 14px}
+    #gameCard #meta,#gameCard #feedback{font-size:20px}
+    #gameCard .opt{font-size:20px;padding:20px}
+    #gameCard .bar{height:18px}
+    #spellInput{font-size:34px !important;line-height:1.3;padding:6px 0;text-align:left;border:none !important;border-bottom:4px solid #0f766e !important;border-radius:0 !important;background:transparent !important;outline:none !important;box-shadow:none !important;font-weight:700;width:75%;max-width:420px;min-width:210px}
+    #spellInput:focus{border:none !important;border-bottom:4px solid #0ea5a8 !important;box-shadow:none !important}
+    #dictInput{text-align:center;caret-color:#0f766e;border:0;border-bottom:4px solid #0f766e;border-radius:0;background:transparent;outline:none}
+    #dictInput:focus{border-bottom-color:#0ea5a8;animation:blinkLine .9s infinite}
+    @keyframes blinkLine{0%,100%{border-bottom-color:#0f766e}50%{border-bottom-color:#5eead4}}
+    .study-page .study-actions{justify-content:center;gap:12px;flex-wrap:wrap}
+    @media (max-width:1100px){.settings-form{grid-template-columns:repeat(3,minmax(120px,1fr));}}
+    @media (max-width:900px){.grid2{grid-template-columns:1fr;max-width:100%}.settings-form{grid-template-columns:1fr;} .opts{grid-template-columns:repeat(2,minmax(0,1fr));} h1{font-size:26px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="focus-col">
+  <div class="card header-card">
+    <a class="back-home" href="./v2.html">← 返回首页</a>
+    <h1>📘 检测区 2.0</h1>
+
+  </div>
+
+<div class="card settings-card">
+  <div class="course-bar">
+    <select id="bookSelect"></select>
+    <select id="gradeSelect">
+      <option value="g1">1年级</option><option value="g2">2年级</option><option value="g3">3年级</option><option value="g4">4年级</option><option value="g5">5年级</option><option value="g6">6年级</option><option value="g7" selected>7年级</option><option value="g8">8年级</option><option value="g9">9年级</option>
+        <option value="wy4">外研4</option>
+            <option value="xsc">小升初</option>
+    </select>
+    <select id="termSelect"><option value="s">上册</option><option value="x" selected>下册</option></select>
+    <select id="unitSelect"><option value="unit1">Unit 1</option></select>
+  </div>
+  <input id="className" type="hidden"><input id="studentName" type="hidden">
+</div>
+  <div class="grid2">
+  <div class="card" id="gameCard">
+
+    <div class="row" style="margin-bottom:8px;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="muted">检测数量</span>
+      <select id="questionCount" style="max-width:130px">
+        <option>10</option><option selected>20</option><option>30</option><option value="all">全部</option>
+      </select>
+      <span class="muted">检测难度</span>
+      <select id="difficulty" style="max-width:180px"><option value="easy">简单</option><option value="normal" selected>标准</option><option value="hard">困难</option></select>
+      <button class="pri" id="startBtn">开始闯关</button>
+    </div>
+    <div class="hud">
+      <span class="pill" id="stagePill">关卡 Lv.1</span>
+      <span class="pill" id="comboPill">连击 x0</span>
+      <span class="pill" id="timerPill">⏱️ 30s</span>
+      <div class="bar"><span id="progressBar"></span></div>
+    </div>
+    <div class="row muted" id="meta">第 0/0 题 · 得分 0 · 错题 0</div>
+    <div id="question" class="q">请先点击“开始闯关”</div>
+    <div id="options" class="opts"></div>
+    <div id="spellWrap" class="row" style="display:none;margin-top:5em">
+      <span>请输入英文：</span><input id="spellInput" style="min-width:280px" />
+    </div>
+    <div id="feedback" class="fb"></div>
+    <div class="row" style="margin-top:10px">
+      <button class="ok" id="submitBtn" disabled>提交</button>
+      <button class="pri" id="nextBtn" disabled>下一题</button>
+      <button class="ghost" id="speakBtn" disabled>🔊 读单词</button>
+      <button class="warn" id="restartBtn" disabled>重开本轮</button>
+      <button class="ghost" id="redoWrongBtn" disabled>错题重做</button>
+      <button class="ghost" id="downloadWrongBtn" disabled style="display:none">下载错词本</button>
+    </div>
+  </div>
+
+  <div class="card" id="rankCard" style="display:none">
+    <h2>2) 成绩榜</h2>
+    <div class="row" style="margin-bottom:8px">
+      <button class="ghost" id="refreshRankBtn">刷新</button>
+      <button class="warn" id="clearRankBtn">清空成绩榜</button>
+    </div>
+    <table>
+      <thead><tr><th>时间</th><th>班级</th><th>学生</th><th>题库</th><th>得分</th><th>错题</th><th>题量</th></tr></thead>
+      <tbody id="rankBody"></tbody>
+    </table>
+  </div>
+  </div>
+  </div>
+
+<div class="card study-page" style="display:none"><div id="studyProgress"></div><span id="studyProgressBar"></span><div id="studyWord"></div><div id="studyCn"></div><div id="studyIpa"></div><div id="studySplit"></div><div id="studyApprox"></div><div id="studyQuizWrap"></div><input id="studyQuizInput"><div id="studyCheckFb"></div><div id="studyStatus"></div><span id="studyTargetPill"></span><span id="studyDonePill"></span><span id="studyMasterPill"></span><select id="studyPlan"><option value="all">all</option></select><select id="studyMode"><option value="en2cn">en2cn</option></select><button id="startStudyBtn"></button><button id="speakStudyBtn"></button><button id="speakStudySlowBtn"></button><button id="studyHardBtn"></button><button id="studyFuzzyBtn"></button><button id="studyKnowBtn"></button><button id="prevStudyBtn"></button><button id="nextStudyBtn"></button><button id="speakSplitBtn"></button><button id="studyCheckBtn"></button><button id="studyHintBtn"></button><button id="studyRevealBtn"></button></div>
+<div id="dictCard" style="display:none">
+    <h2>3) 单词听写</h2>
+    <div class="muted" id="dictMeta">未开始</div>
+    <div id="dictCn" style="font-size:28px;font-weight:700;margin-top:8px">中文释义：-</div>
+    <div class="row" style="margin-top:10px">
+      <input id="dictInput" placeholder="请输入英文单词/短语" style="max-width:840px;width:min(90vw,840px);font-size:42px;line-height:1.2;padding:18px 20px;height:140px" />
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button class="ok" id="dictSubmitBtn">提交</button>
+      <button class="ghost" id="dictNextBtn">下一个</button>
+      <button class="ghost" id="dictSpeakBtn">🔊 发音</button>
+      <button class="pri" id="startDictBtn">开始听写</button>
+    </div>
+    <div class="muted" id="dictFeedback" style="margin-top:8px">-</div>
+  </div></div>
+<div id="morphCard" style="display:none"><div id="morphMeta"></div><div id="morphWord"></div><div id="morphMeaning"></div><div id="morphBlocks"></div><div id="morphFb"></div><span id="morphScorePill"></span><span id="morphComboPill"></span><span id="morphTimerPill"></span><span id="morphProgressBar"></span><select id="morphBankMode"><option value="unit">unit</option></select><select id="morphCount"><option value="10">10</option></select><button id="startMorphBtn"></button><button id="nextMorphBtn"></button><button id="speakMorphBtn"></button></div>
+<div id="pronCard" style="display:none"><button id="startPronBtn"></button><button id="replayPronBtn"></button><button id="nextPronBtn"></button><div id="pronMeta"></div><div id="pronPrompt"></div><div id="pronOptions"></div><div id="pronFb"></div></div>
+<div id="speakEvalCard" style="display:none"><button id="startSpeakEvalBtn"></button><button id="retrySpeakEvalBtn"></button><button id="saveSpeakEvalBtn"></button><button id="manualSpeakGoodBtn"></button><button id="manualSpeakMidBtn"></button><button id="manualSpeakBadBtn"></button><div id="speakEvalMeta"></div><div id="speakEvalHeard"></div><div id="speakEvalScore"></div><div id="speakEvalBreakdown"></div><div id="speakEvalStars"></div><div id="speakEvalHistory"></div></div>
+<div id="selfImportCard" style="display:none"><input id="newBookName"><button id="addBookBtn"></button><button id="deleteBookBtn"></button><textarea id="importWordsInput"></textarea><button id="importWordsBtn"></button><button id="exportWordsBtn"></button><span id="importStatus"></span><span id="importHint"></span></div>
+<div id="bankStat"></div>
+
+</div>
+<script>
+const UNIT1_WORDS = [
+  ["name","名字；名称"],["nice","令人愉快的；宜人的"],["to","用于动词原形前，构成不定式"],["meet","遇见；相逢"],["too","也；又；太"],
+  ["your","你的；你们的"],["his","他的"],["her","她的"],["and","和；又；而"],["yes","是的"],["no","不；不是"],["not","不；没有"],
+  ["zero","零"],["one","一"],["two","二"],["three","三"],["four","四"],["five","五"],["six","六"],["seven","七"],["eight","八"],["nine","九"],
+  ["telephone","电话；电话机"],["number","号码；数字"],["phone","电话；电话机"],["first","第一；首先"],["last","最后的；末尾的"],["friend","朋友"]
+];
+
+const UNIT2_WORDS = [
+  ["sister","姐妹"],["mother","母亲"],["father","父亲"],["parent","父(母)亲"],["brother","兄；弟"],
+  ["grandmother","(外)祖母"],["grandfather","(外)祖父"],["grandparent","(外)祖父(母)"],["family","家庭"],["those","那些"],
+  ["who","谁"],["these","这些"],["they","他(她、它)们"],["well","嗯；好吧"],["have","经受；经历"],
+  ["day","一天；一日"],["bye","再见"],["son","儿子"],["cousin","堂(表)兄弟姐妹"],["photo","照片"],
+  ["picture","图画；照片"],["here","这里"],["of","属于(某人或某物)；关于"],["next","下一个(的)"],["girl","女孩"]
+];
+
+const UNIT3_WORDS = [
+  ["this","这；这个"],["that","那；那个"],["these","这些"],["those","那些"],["schoolbag","书包"],
+  ["book","书"],["dictionary","词典"],["pen","钢笔"],["pencil","铅笔"],["eraser","橡皮"],
+  ["ruler","尺；直尺"],["pencil box","文具盒"],["mine","我的（名词性物主代词）"],["hers","她的"],["yours","你的；你们的"],
+  ["excuse","原谅；宽恕"],["me","我（宾格）"],["thank","感谢"],["teacher","老师"],["about","关于"],
+  ["for","为了；给；对"],["welcome","受欢迎的"],["help","帮助"],["find","找到"],["ask","询问；请求"]
+];
+
+const UNIT4_WORDS = [
+  ["where","在哪里"],["table","桌子"],["bed","床"],["bookcase","书架"],["sofa","沙发"],
+  ["chair","椅子"],["on","在……上"],["under","在……下"],["come","来；来到"],["desk","书桌"],
+  ["think","认为；想"],["room","房间"],["their","他(她、它)们的"],["hat","帽子"],["head","头"],
+  ["yeah","是的；对"],["know","知道；了解"],["radio","收音机"],["clock","时钟"],["tape","磁带"],
+  ["player","播放机"],["model","模型"],["plane","飞机"],["tidy","整洁的"],["everywhere","到处"],
+  ["always","总是"],["our","我们的"],["in","在……里"],["box","箱；盒"],["English book","英语书"]
+];
+
+// 七年级下册 Unit 5~12（常见核心词）
+const UNIT5_WORDS = [
+  ["panda","熊猫"],["zoo","动物园"],["tiger","老虎"],["elephant","大象"],["koala","考拉"],
+  ["lion","狮子"],["giraffe","长颈鹿"],["animal","动物"],["cute","可爱的"],["lazy","懒惰的"],
+  ["smart","聪明的"],["beautiful","美丽的"],["kind of","有点儿"],["Australia","澳大利亚"],["South Africa","南非"],
+  ["pet","宠物"],["leg","腿"],["sleep","睡觉"],["friendly","友好的"],["save","拯救"]
+];
+
+const UNIT6_WORDS = [
+  ["newspaper","报纸"],["use","使用"],["soup","汤"],["wash","洗"],["movie","电影"],
+  ["just","只是；恰好"],["house","房子"],["drink","喝"],["tea","茶"],["tomorrow","明天"],
+  ["pool","游泳池"],["shop","商店"],["supermarket","超市"],["man","男人"],["race","竞赛"],
+  ["study","学习"],["state","州"],["American","美国的"],["dragon","龙"],["wish","希望"]
+];
+
+const UNIT7_WORDS = [
+  ["rain","下雨"],["windy","多风的"],["cloudy","多云的"],["sunny","晴朗的"],["snow","下雪"],
+  ["weather","天气"],["cook","做饭"],["bad","坏的"],["park","公园"],["message","信息"],
+  ["him","他（宾格）"],["could","能；可以"],["back","回来"],["problem","问题"],["again","再一次"],
+  ["dry","干燥的"],["cold","冷的"],["hot","热的"],["warm","温暖的"],["visit","拜访"]
+];
+
+const UNIT8_WORDS = [
+  ["post office","邮局"],["police station","警察局"],["hotel","旅馆"],["restaurant","餐馆"],["bank","银行"],
+  ["hospital","医院"],["street","街道"],["pay","付费"],["near","在附近"],["across","在对面"],
+  ["behind","在后面"],["town","镇；市镇"],["around","在周围"],["north","北；北方"],["along","沿着"],
+  ["turn","转向"],["left","左边"],["right","右边"],["crossing","十字路口"],["spend","花费"]
+];
+
+const UNIT9_WORDS = [
+  ["curly","卷曲的"],["straight","直的"],["tall","高的"],["medium","中等的"],["height","身高"],
+  ["thin","瘦的"],["heavy","重的"],["build","体格"],["cinema","电影院"],["glasses","眼镜"],
+  ["later","以后"],["handsome","英俊的"],["actor","演员"],["actress","女演员"],["person","人"],
+  ["nose","鼻子"],["mouth","嘴"],["face","脸"],["round","圆形的"],["real","真正的"]
+];
+
+const UNIT10_WORDS = [
+  ["noodle","面条"],["beef","牛肉"],["mutton","羊肉"],["cabbage","卷心菜"],["potato","土豆"],
+  ["special","特色菜"],["would","愿意"],["yet","还；仍然"],["large","大号的"],["order","点菜"],
+  ["size","尺寸"],["bowl","碗"],["tofu","豆腐"],["meat","肉"],["dumpling","饺子"],
+  ["porridge","粥"],["onion","洋葱"],["fish","鱼"],["pancake","烙饼"],["world","世界"]
+];
+
+const UNIT11_WORDS = [
+  ["milk","牛奶"],["cow","奶牛"],["horse","马"],["feed","喂养"],["farmer","农民"],
+  ["quite","相当"],["anything","任何事物"],["grow","种植；生长"],["farm","农场"],["pick","采摘"],
+  ["excellent","极好的"],["countryside","乡村"],["yesterday","昨天"],["flower","花"],["worry","担心"],
+  ["luckily","幸运地"],["museum","博物馆"],["fire","火"],["painting","绘画"],["exciting","令人激动的"]
+];
+
+const UNIT12_WORDS = [
+  ["camp","扎营"],["lake","湖"],["beach","海滩"],["sheep","羊"],["as","作为；像"],
+  ["natural","自然的"],["butterfly","蝴蝶"],["visitor","游客"],["tired","疲倦的"],["stay","停留"],
+  ["mouse","老鼠"],["baby","幼小的"],["language","语言"],["kite","风筝"],["moon","月亮"],
+  ["surprise","惊奇"],["snake","蛇"],["jump","跳"],["forest","森林"],["ear","耳朵"]
+];
+
+// 七年级（人教版）重新校对词表（上6单元 + 下6单元）
+const G7_UNIT1_WORDS = [
+  ["make friends","交朋友"],["get to know","认识；了解"],["full","完整的；满的"],["full name","全名"],["grade","年级"],
+  ["last name","姓氏"],["classmate","同班同学"],["class teacher","班主任"],["first name","名字"],["mistake","错误；失误"],
+  ["country","国家"],["same","相同的"],["twin","双胞胎之一"],["both","两个；两个都"],["band","乐队"],
+  ["pot","锅"],["a lot","很；非常"],["tofu","豆腐"],["parrot","鹦鹉"],["guitar","吉他"],
+  ["tennis","网球运动"],["page","页"],["even","甚至"],["hey","嘿；喂"],["play the guitar","弹吉他"],
+  ["would","想；将会"],["would like to","愿意；想要"],["information","信息"],["hobby","业余爱好"],["re","关于（邮件主题）"]
+];
+const G7_UNIT2_WORDS = [
+  ["mean","意思是；打算"],["husband","丈夫"],["bat","球棒；球拍"],["ping-pong bat","乒乓球拍"],["play ping-pong","打乒乓球"],
+  ["together","在一起；共同"],["every day","每天"],["fishing rod","钓竿"],["spend","花（时间、钱等）"],["a lot of","大量；许多"],
+  ["really","非常；确实；真正地"],["member","成员；会员"],["activity","活动"],["chess","国际象棋"],["Chinese chess","中国象棋"],
+  ["grandparent","祖父（母）；外祖父（母）"],["funny","好笑的；奇怪的"],["laugh","笑；发笑"],["different","不同的"],["violin","小提琴"],
+  ["have fun","玩得高兴"],["hat","帽子"],["handsome","英俊的"],["knee","膝；膝盖"],["at night","在夜晚"],
+  ["in the middle","在中间"],["grandchild","（外）孙子；（外）孙女"],["son","儿子"],["hike","远足；徒步旅行"],["go hiking","远足；徒步旅行"],
+  ["next to","紧邻；在……近旁"]
+];
+const G7_STARTER1_WORDS = [["unit","单元"],["starter","过渡单元"],["section","部分；地区"],["greet","招呼；问候"],["each","每个；各自"],["other","另外的；其他的"],["each other","互相；彼此"],["oh","哦；啊"],["everyone","每人；所有人"],["start","开始"],["conversation","谈话；交谈"],["spell","拼写"],["bell","铃（声）；钟（声）"],["PRC","中华人民共和国"],["PLA","中国人民解放军"],["VR","虚拟现实"],["WHO","世界卫生组织"],["UN","联合国"]];
+const G7_STARTER2_WORDS = [["bottle","瓶子"],["eraser","橡皮"],["key","钥匙；关键"],["thing","东西；事情"],["need","需要"],["You’re welcome.","别客气；不用谢"]];
+const G7_STARTER3_WORDS = [["fun","乐趣；快乐"],["yard","院子；园圃"],["carrot","胡萝卜"],["goose","鹅"],["count","数数"],["another","另一；又一"],["else","其他的；别的"],["circle","圈出；圆圈"],["look at","看；瞧"]];
+
+const G7_UNIT3_WORDS = [
+  ["hall","礼堂；大厅"],["dining hall","餐厅"],["in front of","在……前面"],["building","建筑物；房子"],["across","在（……）对面；横过"],
+  ["across from","在对面"],["centre","中心；中央"],["gym","体育馆；健身房"],["field","场地；田地"],["sports field","运动场"],
+  ["office","办公室"],["large","大的；大号的"],["special","特别的；特殊的"],["smart","智能的；聪明的"],["whiteboard","白板"],
+  ["put up","张贴；搭建"],["important","重要的"],["notice","通知；注意"],["locker","有锁存物柜"],["drawer","抽屉"],
+  ["at the back (of)","在（……）后面"],["corner","角；墙角；街角"],["bookcase","书架；书柜"],["screen","屏幕；银幕"],["at school","在学校"],
+  ["different from","与……不一样"],["modern","现代的；当代的"],["do exercises","做体操"],["amazing","令人惊奇的"],["raise","使升高；提高"],
+  ["flag","旗；旗帜"],["most","大多数；最多"],["change","改变；变化"],["seat","座位"],["delicious","美味的"],
+  ["How about ...?","……怎么样？"],["yours","你的；您的（书信结尾）"],["send","发送；邮寄"],["similar","类似的；相像的"],["similar to","类似于"],
+  ["sound","听起来；声音"],["bye for now","再见"],["Flora","弗洛拉（人名）"]
+];
+const G7_UNIT4_WORDS = [
+  ["biology","生物学"],["IT","信息技术"],["geography","地理（学）"],["history","历史；历史课"],["boring","乏味的"],
+  ["useful","有用的；有益的"],["exciting","令人激动的"],["past","过去；过去的"],["good with","善于应付……的"],["number","数字；号码"],
+  ["help sb with","帮助某人做（某事）"],["reason","原因；理由"],["listen to","听；倾听"],["good at","擅长"],["remember","记住；记起"],
+  ["as","如同；作为；当……时"],["AM","上午"],["PM","下午；午后"],["French","法语；法国的"],["excellent","优秀的；极好的"],
+  ["instrument","乐器；器械；工具"],["singer","歌手"],["future","将来；未来"],["in the future","将来；未来"],["term","学期"],
+  ["work out","计算出；解决"],["problem","难题；困难"],["in class","课堂上"],["magic","魔法；有魔力的"],["life","生活；生命"],
+  ["scientist","科学家"],["Baker","贝克（人名）"],["Mike","迈克（人名）"],["Davis","戴维斯（人名）"],["Canada","加拿大"]
+];
+const G7_UNIT5_WORDS = [
+  ["club","俱乐部；社团"],["join","参加；加入"],["choose","选择；挑选"],["drama","戏剧；戏剧表演"],["play Chinese chess","下中国象棋"],
+  ["feeling","感觉；情感"],["news","消息；新闻"],["musical","音乐的；有音乐天赋的"],["musical instrument","乐器"],["exactly","正是如此；准确地"],
+  ["drum","鼓"],["ability","能力；才能"],["paint","用颜料画；油漆"],["climb","攀登；爬"],["more","更多（的）"],
+  ["act","扮演；行动"],["act out","表演"],["at home","在家里"],["interested","感兴趣的"],["interested in","对……感兴趣"],
+  ["nature","自然界；大自然"],["beef","牛肉"],["soon","不久；很快"],["than","比"],["more than","多于"],
+  ["mind","头脑；心思"],["fall","进入；掉落；跌倒"],["fall in love with","爱上……"],["take photos","拍照"],["collect","收集；采集"],
+  ["insect","昆虫"],["discover","发现；发觉"],["wildlife","野生动物；野生生物"],["Linda","琳达（人名）"],["Alice","爱丽丝（人名）"],
+  ["Bill","比尔（人名）"],["Jenny","珍妮（人名）"]
+];
+const G7_UNIT6_WORDS = [
+  ["make use of","使用；利用"],["quarter","一刻钟；四等份之一"],["shower","淋浴；淋浴器"],["take a shower","淋浴"],["get dressed","穿衣服"],
+  ["brush","刷；刷子"],["tooth","牙齿"],["duty","值班；职责"],["on duty","值班"],["usually","通常地；一般地"],
+  ["get up","起床；站起"],["reporter","记者"],["around","大约；环绕；到处"],["homework","家庭作业"],["go to bed","上床睡觉"],
+  ["saying","谚语；格言"],["rise","起床；升起；增长"],["stay","停留；待"],["routine","常规"],["restaurant","餐馆；餐厅"],
+  ["housework","家务劳动"],["while","一段时间；当……的时候"],["weekend","周末"],["at weekends","在周末"],["daily","每日的；日常的"],
+  ["daily routine","日常生活"],["only","只；仅"],["break","休息；间断"],["Finnish","芬兰语；芬兰的"],["finish","结束；完成"],
+  ["hockey","曲棍球"],["ice hockey","冰球运动"],["already","已经；早已"],["dark","昏暗的"],["outside","在外面；外面的"],
+  ["part","部分"],["everyday","每天的；日常的"],["prepare","准备"],["prepare sth for","为……准备某物"],
+  ["Timo","蒂莫（人名）"],["Halla","哈拉（人名）"],["Helsinki","赫尔辛基"],["Finland","芬兰"],["home economics","家政学；家庭经济学"]
+];
+const G7_UNIT7_WORDS = [
+  ["celebrate","庆祝；庆贺"],["surprise","惊奇；使感到意外"],["something","某事；某物"],["sale","出售；销售"],["kilo","千克；公斤"],
+  ["yogurt","酸奶"],["total","总数；总的"],["price","价格"],["balloon","气球"],["chocolate","巧克力"],
+  ["pizza","比萨饼"],["list","名单；清单"],["own","自己的；本人的"],["example","例子；范例"],["for example","例如"],
+  ["language","语言"],["international","国际的"],["mark","做记号；纪念；打分"],["national","国家的；民族的"],["found","创建；创立"],
+  ["meaningful","有意义的；重要的"],["make a wish","许愿"],["celebration","庆典；庆祝活动"],["post","帖子；邮寄；发布"],["contact","联系；联络"],
+  ["symbol","象征；符号"],["take a photo","拍照"],["village","村庄；村镇"],["grow","成长；长大；增长"],["blow","吹；刮"],
+  ["blow out","吹灭"],["enjoy","享受……的乐趣；喜欢"],["height","身高；高度"],["later","以后；后来"],["next time","下次"],
+  ["whom","谁；什么人"],["National Day","国庆节"],["CPC Founding Day","中国共产党建党纪念日"],["PLA Day","中国人民解放军建军节"]
+];
+const G7_UNIT8_WORDS = [
+  ["fox","狐狸"],["giraffe","长颈鹿"],["eagle","雕；鹰"],["wolf","狼"],["penguin","企鹅"],
+  ["care","照顾；护理；关心；在乎"],["take care of","照顾；处理"],["sandwich","三明治"],["snake","蛇"],["scary","吓人的；恐怖的"],
+  ["neck","脖子"],["guess","猜测；估计"],["shark","鲨鱼"],["whale","鲸"],["huge","巨大的；极多的"],
+  ["dangerous","危险的；有危害的"],["save","救；储蓄；保存"],["luck","幸运；运气"],["Thai","泰国的；泰国人；泰语"],["trunk","象鼻"],
+  ["pick","捡；摘"],["pick up","拿起；举起"],["carry","拿；提"],["playful","爱嬉戏的；爱玩的"],["swimmer","游泳者"],
+  ["one another","互相"],["look after","照顾"],["culture","文化；文明"],["however","然而；不过"],["danger","危险"],
+  ["in danger","处于危险之中"],["forest","森林"],["cut down","砍伐；减少"],["too many","太多"],["kill","杀死；弄死"],
+  ["made of","由……制成的"],["ivory","象牙"],["friendly","友好的"],["quite","相当；完全"],["quite a","相当；非常"],
+  ["not ... at all","一点也不；完全不"],["fur","（动物浓厚的）软毛"],["blind","瞎的；失明的"],["hearing","听力；听觉"],["Antarctica","南极洲"],
+  ["Africa","非洲"],["Malee","马莉"],["Thailand","泰国"]
+];
+const G7_UNIT9_WORDS = [
+  ["rule","规则；规章"],["order","秩序；命令；点菜"],["follow","遵循；跟随"],["late for","迟到"],["arrive","到达"],
+  ["on time","准时"],["hallway","走廊"],["uniform","校服；制服"],["litter","乱扔；垃圾"],["polite","有礼貌的"],
+  ["treat","对待；招待；治疗；款待"],["respect","尊敬"],["if","如果"],["jacket","夹克衫；短上衣"],["have to","不得不"],
+  ["everything","每件事；一切"],["lend","借给；借出"],["sweet","糖果；甜的"],["snack","点心；小吃"],["of course","当然"],
+  ["mobile","可移动的"],["mobile phone","手机"],["turn off","关掉（水、电或煤气）"],["queue","队"],["jump the queue","插队"],
+  ["feed","喂养；饲养"],["leave","离开；留下"],["absent","缺席的；不在的"],["absent from","缺席；不在"],["shh","嘘"],
+  ["quietly","轻声地；安静地"],["belt","安全带；腰带；皮带"],["noise","声音；噪声"],["unhappy","不快乐的"],["make sb's/the bed","整理床铺；铺床"],
+  ["either","也（用于否定词组后）"],["practise","训练；练习"],["hang","悬挂"],["hang out","闲逛；常去某处"],["weekday","工作日"],
+  ["awful","糟糕的；讨厌的"],["become","变成；成为"],["better","较好的；较好地"],["person","人"],["focus","集中（注意力）；聚焦"],
+  ["focus on","集中于"],["build","创建；建造"],["spirit","精神；情绪"],["think about","思考；考虑"],["relax","放松；休息"],
+  ["advice","建议；意见"],["understand","理解；领会"],["untidy","不整洁的"],["Mary","玛丽"],["Tony","托尼"],
+  ["Anne","安妮"],["Eric","埃里克"]
+];
+const G7_UNIT10_WORDS = [
+  ["fit","健康的；健壮的；适合"],["baseball","棒球（运动）"],["glove","手套"],["mat","垫子"],["rope","绳子；粗绳"],
+  ["jump rope","跳绳（运动）"],["racket","球拍"],["hardly","几乎不"],["ever","曾经；在任何时候"],["hardly ever","几乎从不"],
+  ["once","一次；曾经"],["twice","两次；两倍"],["mine","我的（所有物）"],["hers","她的（所有物）"],["maybe","也许；大概"],
+  ["well-used","使用得多的"],["practice","练习；实践"],["perfect","完美的；极好的"],["seldom","很少；不常"],["badminton","羽毛球运动"],
+  ["double","双打；两倍"],["sometime","在某个时候"],["volleyball","排球（运动）"],["theirs","他们/她们/它们的（所有物）"],["jog","慢跑"],
+  ["few","很少的"],["a few","少数；几个"],["excuse","原谅；宽恕"],["excuse me","劳驾；请原谅"],["over there","在那边"],
+  ["just","只是；正好"],["T-shirt","T恤衫"],["belong","应在（某处）"],["belong to","属于"],["working","工作的"],
+  ["working day","工作日"],["full of","有许多；充满"],["energy","精力；能量"],["group","组；群"],["skateboard","滑板"],
+  ["encourage","鼓励；激励"],["trick","技巧；戏法"],["succeed","成功；达到目标"],["skateboarding","滑板运动"],["goal","目标；目的"],
+  ["sit-up","仰卧起坐"],["work out","锻炼"],["app","应用程序"],["progress","进步；进展"],["match","比赛；竞赛"],
+  ["team","队；组"],["ours","我们的（所有物）"],["lose","输掉；丢失"],["teenager","青少年"],["Steve","史蒂夫"]
+];
+const G7_UNIT11_WORDS = [
+  ["watermelon","西瓜"],["cabbage","卷心菜"],["mutton","羊肉"],["cookie","曲奇饼"],["onion","洋葱"],
+  ["dumpling","饺子"],["coffee","咖啡"],["bean","豆"],["chip","炸薯条"],["fish and chips","炸鱼薯条"],
+  ["salad","沙拉"],["porridge","粥；麦片粥"],["waiter","（男）服务员"],["What about ...?","……怎么样？"],["taste","味道；尝"],
+  ["anything","某事物；任何事物"],["dish","一道菜；盘子"],["choice","选择"],["meal","一餐"],["pork","猪肉"],
+  ["strawberry","草莓"],["menu","菜单"],["customer","顾客"],["serve","提供；服务"],["waitress","女服务员"],
+  ["sir","先生"],["go with","搭配；相配"],["instead","反而；代替"],["pear","梨"],["too much","太多"],
+  ["sugar","糖"],["improve","改进；改善"],["habit","习惯"],["fast food","快餐"],["salt","盐"],
+  ["fat","脂肪；肥胖的"],["put on","增加；穿上"],["weight","体重；重量"],["hamburger","汉堡包"],["cause","造成；导致"],
+  ["heart","心脏；中心"],["balanced","均衡的"],["too ... to","太……以至于不能"],["sleepy","困倦的"],["after all","毕竟"],
+  ["away","离开；在别处"],["poor","不好的；贫穷的；可怜的"],["result","后果；结果"],["article","文章；冠词"],["common","普遍的"],
+  ["among","在……中"],["soft","柔和的；柔软的"],["soft drink","软饮料"],["enough","足够的"],["thirsty","渴的"],
+  ["Gongbao chicken","宫保鸡丁"],["America","美国；美洲"],["Dongpo pork","东坡肉"]
+];
+const G7_UNIT12_WORDS = [
+  ["right now","现在；立刻"],["ride","骑；旅程"],["moment","某个时刻；片刻"],["at the moment","现在；此刻"],["work on","做；从事"],
+  ["dragon","龙"],["festival","节日"],["hold","拿着；抓住"],["hold on","别挂断；等一等"],["voice","嗓音；声音"],
+  ["race","比赛；竞赛"],["darling","亲爱的；宝贝"],["somebody","某人；有人"],["could","能；可以"],["message","消息；信息"],
+  ["take a message","捎个口信"],["leave a message","留个口信"],["call back","回电话"],["kick","踢；踹"],["wow","哇；呀"],
+  ["online","在线的"],["shuttlecock","羽毛球"],["sight","名胜；风景；视力"],["exam","考试"],["hope","希望"],
+  ["forward","向前"],["look forward to","盼望"],["skate","滑冰"],["happen","发生"],["zone","地区；地带；区域"],
+  ["time zone","时区"],["around the world","世界各地"],["rush","冲；奔"],["in a hurry","匆忙"],["shine","发光；照耀"],
+  ["brightly","明亮地"],["colourful","色彩鲜艳的"],["slowly","缓慢地"],["such","这样的；那样的"],["such as","例如"],
+  ["painting","绘画作品；绘画"],["market","市场"],["side","边；侧"],["side by side","并排；并肩地"],["subway","地铁"],
+  ["bright","鲜艳的；明亮的；聪明的"],["drop","把……送至；落下"],["drop off","把某人送到某处"],["passenger","乘客"],["central","中心的；中央的"],
+  ["explain","解释；说明"],["take part in","参加"],["tour","旅行；旅游"],["sunshine","阳光"],["drive","开车；驾驶"],
+  ["rush hour","交通高峰期"],["Adam","亚当"],["Dragon Boat Festival","端午节"],["Beth","贝丝"],["Nairobi","内罗毕"],
+  ["New York","纽约"],["Kenya","肯尼亚"],["USA","美国"],["Central Park","中央公园"]
+];
+
+const G7_UNIT13_WORDS = [
+  ["rain or shine","不论是雨或是晴；不管发生什么事"],["affect","影响"],["dry","干的；干旱的"],["lightning","闪电"],["stormy","有暴风雨的"],
+  ["north","北部；北方"],["west","西部；西方"],["south","南部；南方"],["east","东部；东方"],["stay in","待在家里"],
+  ["lucky","运气好的"],["lucky you","你真幸运"],["sunbathe","沐日光浴；晒太阳"],["some day","将来；有朝一日"],["temperature","温度"],
+  ["snowman","雪人"],["heavily","大量地；沉重地"],["snowy","下雪的；雪白的"],["beach volleyball","沙滩排球"],["high","高"],
+  ["freezing","极冷的；冰冻的"],["tourist","旅行者；观光客"],["mount","山；山峰"],["cloud","云；云彩"],["feel like","感觉像"],
+  ["magical","魔法的；神奇的"],["rock","岩石"],["rest","休息；剩余部分"],["area","场地；地区"],["rest area","休息区"],
+  ["make progress","取得进展"],["although","虽然；尽管"],["still","还；仍然"],["in high spirits","兴高采烈"],["experience","经历；经验"],
+  ["through","穿过；凭借"],["glad","高兴的"],["peak","山顶；顶点"],["grey","灰色的"],["because of","因为"],
+  ["fog","雾"],["ground","地面"],["wet","湿的"],["tiring","令人疲倦的"],["seem","似乎；好像"],
+  ["sunlight","阳光；日光"],["at the top","在顶部"],["thought","想法"],["mountain","山；高山"],["at the start","开始；起初"],
+  ["end","末尾；结束"],["at the end","最后；在末尾"],["storm","暴风雨；暴风雪"],["pour","倾倒；倒出"],["wind","风"],
+  ["shout","喊叫；呼唤"],["run after","追逐"],["Anna","安娜"],["John","约翰"],["Stockholm","斯德哥尔摩"],
+  ["Mount Huangshan","黄山"],["Bright Peak","光明顶"]
+];
+const G7_UNIT14_WORDS = [
+  ["meet up","碰头；相聚"],["museum","博物馆"],["exhibition","展览"],["direction","方向"],["trip","旅行"],
+  ["wastewater","废水"],["plant","工厂"],["into","到……里面；进入"],["remove","移开；拿走"],["piece","片；块"],
+  ["waste","废弃物；浪费"],["machine","机器"],["germ","微生物；细菌"],["step","步骤；脚步"],["used to","过去常常"],
+  ["realize","认识到；实现"],["inside","在……里面"],["go on a trip","去旅行"],["process","过程"],["theatre","戏院；剧场"],
+  ["factory","工厂"],["terrible","糟糕的"],["actor","演员"],["gun","枪"],["try on","试穿"],
+  ["along","沿着；顺着"],["road","道路"],["create","创造"],["record","记录"],["skill","技能"],
+  ["write down","写下；记下"],["explore","探索"],["tent","帐篷"],["cucumber","黄瓜"],["from ... to ...","从……到……"],
+  ["straight","直接；立即；笔直地"],["fill","装满；盛满"],["basket","篮子；筐"],["teach","教"],["branch","分支；树枝"],
+  ["leaf","叶；叶子"],["finally","终于"],["think of","考虑；想起"],["grain","谷物；谷粒"],["fresh","新鲜的"],
+  ["certainly","肯定地"],["diary","日记；日记本"],["entry","（日记）一则；入口"],["agree","赞成；同意"],["agree with","赞成；同意"]
+];
+const G7_UNIT15_WORDS = [
+  ["upon","在……上"],["once upon a time","从前；很久以前"],["bite","咬；咬伤"],["bite through","咬穿"],["net","网；网状物"],
+  ["hunter","猎人；搜寻者"],["promise","承诺；诺言"],["long ago","很久以前"],["war","战争"],["neighbour","邻居"],
+  ["wise","明智的；高明的"],["emperor","皇帝"],["lie","撒谎；谎言"],["pretend","假装；伪装"],["official","官员；高级职员"],
+  ["silly","愚蠢的；傻的"],["decide","决定"],["praise","赞美；表扬"],["afraid","害怕的；担心的"],["suddenly","突然地"],
+  ["at first","起初；最初"],["truth","真相；事实"],["tell the truth","说实话"],["make money","赚钱"],["true","真正的；符合事实的"],
+  ["hate","不喜欢；厌恶"],["get out","逃脱；离开"],["king","君主；国王"],["artist","美术家；艺术家"],["quickly","快速地"],
+  ["smile","微笑；笑容"],["all over","到处；遍及"],["ugly","丑陋的；难看的"],["duckling","小鸭子"],["real","真的；真正的"],
+  ["laugh at","嘲笑"],["go away","走开"],["search","寻找；搜寻"],["search for","寻找"],["hen","母鸡"],
+  ["hopefully","有希望地"],["purr","（猫）发出呜呜声"],["lay","下（蛋）；放置"],["swan","天鹅"],["feather","羽毛"],
+  ["to sb's surprise","出乎某人的意料"],["size","大小；尺寸"],["believe","相信；认为"],["only if","只有"],["fisherman","渔夫"],
+  ["fishing","钓鱼；捕鱼"],["come out","出现；盛开"],["genie","妖怪；鬼"],["die","死亡；消失"],["make a promise","许下诺言"],
+  ["someone","某人；有人"],["set","使处于某种状况；使开始"],["set ... free","释放"],["rich","富有的；富含……的"],["powerful","强大的；有影响力的"]
+];
+
+// 外研版（一起）六年级上册（按 Unit1~Unit10）
+const G6S_U1_WORDS = [
+  ["how long","多长"],["near","在…附近"],["along","沿着"],["more than","超过"],["kilometre","千米"],["metre","米"],["office building","办公楼"]
+];
+const G6S_U2_WORDS = [
+  ["Chinatown","唐人街"],["town","城镇"],["subject","学科"],["everywhere","到处"],["spoke","说（speak过去式）"],["lion dance","舞狮"],["tomb","墓"],["wrote","写（write过去式）"],["when","什么时候"]
+];
+const G6S_U3_WORDS = [
+  ["stamp","邮票"],["book","书"],["collect","收集"],["hobby","爱好"],["sun","太阳"],["island","岛"],["coconut","椰子"]
+];
+const G6S_U4_WORDS = [
+  ["Thanksgiving","感恩节"],["nearly","几乎"],["the Spring Festival","春节"],["sure","当然"],["December","十二月"],["light","灯；光"]
+];
+const G6S_U5_WORDS = [
+  ["pleased","高兴的"],["pretty","相当；漂亮的"],["French","法语；法国的"],["phone","电话"]
+];
+const G6S_U6_WORDS = [
+  ["world","世界"],["difficult","困难的"],["answer","回答；答案"],["Miss","小姐；老师称呼"]
+];
+const G6S_U7_WORDS = [
+  ["bamboo","竹子"],["gave","给（give过去式）"],["its","它的"],["almost","几乎"],["deaf","聋的"],["frightened","害怕的"],["sh","嘘"],["roar","吼叫"],["fox","狐狸"],["at night","在夜里"]
+];
+const G6S_U8_WORDS = [
+  ["coin","硬币"],["ever","曾经"],["tidy","整洁的"],["messy","凌乱的"],["never","从不"],["blackboard","黑板"]
+];
+const G6S_U9_WORDS = [
+  ["peace","和平"],["make peace","讲和；言和"],["member state","成员国"],["famous","著名的"]
+];
+const G6S_U10_WORDS = [
+  ["aunt","阿姨；姑妈"],["forgot","忘记（forget过去式）"],["way","路；方式"],["cross","穿过"]
+];
+
+// 外研版（一起）六年级下册（按 Unit1~Unit10 菜单格式）
+const G6X_U1_WORDS = [
+  ["hot dog","热狗"],["cashier","收银员"],["cola","可乐"],["soup","汤"],["dollar","美元"],
+  ["cent","美分"],["enjoy","享用；享受"],["meal","餐"]
+];
+const G6X_U2_WORDS = [
+  ["later","后来；以后"],["to go","剩余"],["dark","黑暗的"],["cloud","云"],["oh dear","哎呀；天哪"],
+  ["dry","干的"],["stay","保持"],["cloudy","多云的"]
+];
+const G6X_U3_WORDS = [
+  ["close","关闭"],["quickly","快速地"],["left","丢下（leave过去式）"],["shine","照耀"],["cry","喊；叫"]
+];
+const G6X_U4_WORDS = [
+  ["thing","东西；事物"],["need","需要"],["grab","抓住"],["balloon","气球"],["fly away","飞走"],
+  ["stairs","楼梯"]
+];
+const G6X_U5_WORDS = [
+  ["telephone","电话"],["ring","响"],["bell","门铃"],["bark","（狗）吠"],["arrive","到达"],
+  ["hardly","几乎不"],["raincoat","雨衣"],["tunnel","隧道"]
+];
+const G6X_U6_WORDS = [
+  ["home","回家"],["earth","地球"],["space","太空"],["travel","旅行"],["interested","感兴趣的"],
+  ["be interested in","对……感兴趣"],["spaceship","宇宙飞船"],["surprised","惊奇的；惊讶的"],["made","做，制作（make过去式）"],
+  ["model","模型；模范；榜样"],["taikonaut","（中国的）太空人，宇航员"],["national","国家的"],["flag","旗"],["seed","种子"]
+];
+const G6X_U7_WORDS = [
+  ["flew","飞，飞行（fly过去式）"],["spent","度过（spend过去式）"],["video","录像"],["someday","有朝一日"],
+  ["born","出生，诞生"],["illness","病，疾病"],["round","在……各处"],["all over the world","全世界"]
+];
+const G6X_U8_WORDS = [
+  ["cup","杯子"],["classmate","同班同学"],["baseball","棒球"],["brought","带来（bring过去式）"],
+  ["more","更强烈地"],["mistake","错误"],["make mistakes","犯错误"],["word","单词，字"]
+];
+const G6X_U9_WORDS = [
+  ["wish","愿望，希望；祝，祝愿"],["best wishes","最美好的祝愿"],["luck","运气"],["primary","初级的；小学的"],
+  ["primary school","小学"],["keep","保留"],["forever","永远"],["joy","乐趣"],["future","未来，将来"],
+  ["taught","教，讲授（teach过去式）"],["wonderful","极好的，了不起的"],["happiness","幸福，快乐"]
+];
+const G6X_U10_WORDS = [
+  ["middle","中部的；中间"],["middle school","中学"],["speech","演说；讲演"],["September","九月"],
+  ["excited","激动的，兴奋的"],["geography","地理"],["same","相同的"],["at the same time","同时"],
+  ["little","极少量的"],["keep on","保持"],["sometime","某个时候"],["each other","互相；彼此"],
+  ["chemistry","化学"],["physics","物理"]
+];
+
+function buildFltrpUnits(grade, term, pool, seed=0){
+  const out = {};
+  const n = pool.length;
+  for(let u=1; u<=10; u++){
+    const arr = [];
+    for(let i=0; i<8; i++){
+      const idx = (seed + (u-1)*8 + i) % n;
+      arr.push(pool[idx]);
+    }
+    out[`g${grade}${term}_u${u}`] = arr;
+  }
+  return out;
+}
+
+// 外研一起 1-6年级上下册（QSBDC检索导入）
+const FLTRP_YQ_ALL_UNITS = {
+  g1s_u1: [["hello","int.喂，你好（用来打招呼或引起注意）"], ["ooh","int.（表示惊讶、欣喜、痛苦等）啊，呵"], ["I","pron.(主格)我"], ["am","v.是（be的第一人称单数现在时）"], ["goodbye","int.再见 （=good-bye）"], ["how are you","你好"], ["woof","汪汪（狗叫声）"], ["no","adv.（表示否定）不，不是"], ["yes","adv.是（用于肯定句前）"]],
+  g1s_u2: [["what","pron.什么；adj.多么，何等；什么；尽可能多的"], ["is","v.是（be的第三人称单数现在时）"], ["your","pron.你的，你们的"], ["name","n.名字(称/声/义)；vt.给...取名；列举；提名"], ["please","adv.请；vt.使高兴，合...的心意，取悦；vi.使人满意，讨好；愿意；敬请"], ["good","adj.好；善良的；擅长的；乖；n.善；利益"], ["morning","n.早上；上午"], ["Ms","女士"], ["my","pron.(I的所有格)我的"]],
+  g1s_u3: [["sit","vi.坐，就座，坐落；vt.使就座，骑；n.坐"], ["down","adj.向下的； adv.向下； n.绒毛，汗毛； prep.沿着...而下"], ["stand","v.忍受；站，站立"], ["up","adv.向上，...起来；...完；起床；prep.向上"], ["open","vt.开，打开"], ["the","art.这（那）个，这（那）些（指特定的人或物）"], ["window","n.窗子，窗户"], ["door","n.门"], ["see you","再见，回见"], ["point","n.点，要点，尖端，细节，目标；vt.指出，瞄准；vi.表明；指向"]],
+  g1s_u4: [["it","pron.它"], ["red","adj.红色的；n.红色"], ["aha","int.啊哈"], ["blue","adj.蓝的；阴郁的；n.蓝色"], ["wow","int.哇！n.巨大的成功"], ["yellow","adj.黄（色）的；n.黄（色）"], ["oh","int.啊，噢，呀（表示惊讶，恐怖，赞叹等）"], ["colour","n.颜色，面色，颜料，外貌；vt.把...涂上颜色，粉饰，使脸红，歪曲；vi.变色"], ["green","adj.绿色的；未成熟的；环保的；n.绿色；植物；vi.变绿；vt.使…变绿"]],
+  g1s_u5: [["this","pron.这，这个；adj.这..."], ["our","pron.我们的（we的所有格）"], ["teacher","n.老师"], ["school","n.学校；学院；学派"], ["classroom","n.教室，课堂"], ["nice to meet you","遇到你真高兴"], ["child","n.（ [pl.] children）小孩，儿童；儿女"], ["that","pron.那，那个"], ["bag","n.袋，包，钱包，背包"]],
+  g1s_u6: [["schoolbag","n.书包"], ["book","n.书，书籍；vt.订（票，座位，房间等），预定"], ["pen","n.钢笔"], ["pencil","n.铅笔"], ["ruler","n.尺子，直尺；统治者，支配者"], ["eraser","n.橡皮擦，黑板擦"], ["pencil case","n.铅笔盒，文具盒"], ["crayon","n.蜡笔，蜡笔画；vt.以蜡笔作画"]],
+  g1s_u7: [["new","adj.新的，陌生的，最近的，不熟悉的"], ["kite","n.风筝"], ["or","conj. 还是；或，或者；不然，否则"], ["not","adv.不，没"], ["monkey","n.猴子；vi.胡闹，乱弄；vt.嘲弄"], ["monster","n.怪物；巨人，巨兽；残忍的人；adj.巨大的，庞大的"], ["help","v.帮助，帮忙"], ["house","n.房屋"], ["box","n.盒子；箱子"]],
+  g1s_u8: [["how many","多少；几何；几；几多"], ["one","num.一；pron.一个（只）（表示代替可数的东西）"], ["two","num.二，两个；n.两个（人或物）"], ["three","num.三；pron./adj.三（个，只...）"], ["four","num.四；pron./adj.四（个，只...）"], ["count","vt.数（数目），点（数）；vi. 计数；有价值"], ["say","vt.说，讲，念，说明，指明；vi.说，讲；n.意见，发言权"], ["five","num.五；pron./adj.五（个，只...）"], ["six","num.六；pron./adj.六(个，只...)"], ["seven","num.七，七个（人或物）"]],
+  g1s_u9: [["how old","多大年纪，几岁"], ["are","v.是（be的第二人称单数和各人称的复数形式）"], ["too","adv.也，还；太；过分"], ["happy","adj.快乐的，幸福的；乐意的；令人满意的"], ["birthday","n.生日，诞生日"], ["but","conj.但是；prep.除...以外；adv.只，才，仅仅"], ["for","prep.为，为了；因为；给；对于；关于；当作；conj.因为；由于"], ["you're welcome","欢迎你"]],
+  g1s_u10: [["father","n.父亲；创始人，发明者；（Father）神父"], ["daddy","n.（=dad）爸爸"], ["mother","n.母亲，妈妈"], ["grandpa","n.(=grandfather)祖父；外祖父"], ["grandma","n.(=grandmother)祖母；外祖母"], ["friend","n.朋友；支持者；同伴"], ["his","pron.他的（所有物）"], ["car","n.汽车，小汽车，轿车"], ["sister","n.姐妹；姐，妹；护士长；修女；女教士"], ["brother","n.兄弟；同事；同胞"]],
+  g1x_u1: [["he","pron.（主格）他"], ["doctor","n.医生；博士；vt.篡改，对…做手脚"], ["she","pron.她（主格）"], ["me","pron.我（I的宾语）"], ["nurse","n.护士；褓姆，奶妈；vt.&vi.看护，照顾；栽培"], ["driver","n.司机，驾驶员"], ["policeman","n.警察（复数为policemen）"], ["pupil","n.学生，小学生；瞳孔"]],
+  g1x_u2: [["where","adv.在哪里；pron.哪里"], ["in","prep.在…里（内，上）；用…（表示）；adv.进，入"], ["on","prep.在...上；由...支撑着；关于；adv.向前；靠近；穿着；adj.已连接、处于工作状态或使用中；发生"], ["hat","n.帽子（一般指带边的）"], ["under","prep.在…下面；在…以下；adv.在下面；少于"], ["toy","n.玩具"], ["bed","n.床，床位；圃；河床"], ["look at","朝...看；看望，注视；看待，认为"], ["bear","n.熊；vt.忍受，负荷；结果实，生子女；vi. 承受；结果实"]],
+  g1x_u3: [["eleven","num.十一，十一个"], ["twelve","num.十二，十二个"], ["know","vt.知道，了解；认识；识别；vi.知道，了解"], ["other","adj.另外的，其他的"], ["fish","n.鱼；鱼肉；vi.钓鱼；vt.钓鱼，捕鱼"], ["tree","n.树，树木"], ["let's","（=let us）让我们"]],
+  g1x_u4: [["head","n.头；顶部；领导，首脑；v.主管；位于...顶部"], ["touch","n.触觉，触摸；v.触摸；感动；轻击"], ["nose","n.鼻子"], ["face","n.脸，面孔；vt.面对，面向；vi.向；朝"], ["ear","n.耳朵"], ["mouth","n.嘴；口"], ["eye","n.眼睛；vt.看，注视"], ["body","n.身体，躯体；车身，船身；正文，主要部分；尸体"], ["these","pron./adj.这些（this的复数）"], ["leg","n.腿；旅程的一段"]],
+  g1x_u5: [["they","pron.他们；她们；它们"], ["cow","n.母牛，奶牛"], ["pig","n.猪，小猪，野猪"], ["farm","n.农场，农庄，牧场；vt.耕作，经营农场；vi.种田，务农"], ["duck","n.鸭；vi. 闪避；没入水；vt. 躲避；猛按…入水"], ["chicken","n.鸡肉；鸡，小鸡，小鸟"], ["egg","n. 鸡蛋�
