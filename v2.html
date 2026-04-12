@@ -232,9 +232,9 @@
  }catch(e){ alert('网络错误'); }
  }
 
- function logout(){
+ async function logout(){
  setCurrentUser(null);
- updateUserUI();
+ await updateUserUI();
  }
 
  async function updateUserUI(){
