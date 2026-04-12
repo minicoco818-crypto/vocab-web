@@ -1,416 +1,436 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>成长教育学单词 2.0</title>
-  <style>
-    body{margin:0;font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#f7f4ee,#efe7dc);color:#2f2a24}
-    .wrap{max-width:860px;margin:60px auto;padding:24px}
-    .card{background:#fffdf9;border:1px solid #ddd5c7;border-radius:18px;padding:28px;box-shadow:0 10px 24px rgba(90,80,60,.08)}
-    h1{margin:0 0 8px;font-size:34px}
-    .muted{color:#6b6257}
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>成长教育学单词 2.0</title>
+ <style>
+ body{margin:0;font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#f7f4ee,#efe7dc);color:#2f2a24}
+ .wrap{max-width:860px;margin:60px auto;padding:24px}
+ .card{background:#fffdf9;border:1px solid #ddd5c7;border-radius:18px;padding:28px;box-shadow:0 10px 24px rgba(90,80,60,.08)}
+ h1{margin:0 0 8px;font-size:34px}
+ .muted{color:#6b6257}
 
-    .bank-section{background:#f5f1eb;border-radius:12px;padding:20px;margin:20px 0 8px;border:1px solid #e5ddd3}
-    .bank-section h2{margin:0 0 16px;font-size:18px;color:#5a5247}
+ .bank-section{background:#f5f1eb;border-radius:12px;padding:20px;margin:20px 0 8px;border:1px solid #e5ddd3}
+ .bank-section h2{margin:0 0 16px;font-size:18px;color:#5a5247}
 
-    .course-bar{display:flex;gap:10px;align-items:center;flex-wrap:nowrap;justify-content:center}
-    .course-bar select{flex:1;min-width:0;max-width:260px;height:44px;font-size:16px;background:#fffaf3;color:#2f2a24;border:1px solid #d8cfc1;border-radius:10px;padding:10px}
+ .course-bar{display:flex;gap:10px;align-items:center;flex-wrap:nowrap;justify-content:center}
+ .course-bar select{flex:1;min-width:0;max-width:260px;height:44px;font-size:16px;background:#fffaf3;color:#2f2a24;border:1px solid #d8cfc1;border-radius:10px;padding:10px}
 
-    .cur-bank{margin:14px 0 4px;padding:12px;background:#fff;border-radius:8px;border-left:4px solid #7b6ed6}
-    .cur-bank .label{font-size:12px;color:#888;margin-bottom:4px}
-    .cur-bank .name{font-size:16px;font-weight:600;color:#2f2a24}
+ .cur-bank{margin:14px 0 4px;padding:12px;background:#fff;border-radius:8px;border-left:4px solid #7b6ed6}
+ .cur-bank .label{font-size:12px;color:#888;margin-bottom:4px}
+ .cur-bank .name{font-size:16px;font-weight:600;color:#2f2a24}
 
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-    .btn{display:block;text-decoration:none;background:#7b6ed6;color:#fff;padding:22px;border-radius:12px;font-size:18px;font-weight:700;text-align:center;cursor:pointer;border:none;width:88%;margin:0 auto}
-    .btn.alt{background:#4a8f72}
-    .sub{margin-top:6px;font-size:13px;color:#6b6257;text-align:center}
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+ .btn{display:block;text-decoration:none;background:#7b6ed6;color:#fff;padding:22px;border-radius:12px;font-size:18px;font-weight:700;text-align:center;cursor:pointer;border:none;width:88%;margin:0 auto}
+ .btn.alt{background:#4a8f72}
+ .sub{margin-top:6px;font-size:13px;color:#6b6257;text-align:center}
 
-    .user-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:12px;background:#f8f5f0;border-radius:10px}
-    .user-info{font-size:14px;color:#5a5247}
-    .user-info strong{color:#2f2a24}
-    .user-btns{display:flex;gap:8px}
-    .user-btn{padding:8px 16px;font-size:14px;border-radius:8px;cursor:pointer;border:none;background:#7b6ed6;color:#fff}
-    .user-btn.secondary{background:#e0d8c8;color:#5a5247}
-    .user-btn:hover{opacity:0.9}
+ .user-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:12px;background:#f8f5f0;border-radius:10px}
+ .user-info{font-size:14px;color:#5a5247}
+ .user-info strong{color:#2f2a24}
+ .user-btns{display:flex;gap:8px}
+ .user-btn{padding:8px 16px;font-size:14px;border-radius:8px;cursor:pointer;border:none;background:#7b6ed6;color:#fff}
+ .user-btn.secondary{background:#e0d8c8;color:#5a5247}
+ .user-btn:hover{opacity:0.9}
 
-    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000}
-    .modal.show{display:flex}
-    .modal-content{background:#fff;padding:24px;border-radius:16px;width:90%;max-width:360px}
-    .modal h2{font-size:20px;margin:0 0 16px;color:#2f2a24}
-    .modal input{width:100%;padding:12px;margin-bottom:12px;border:1px solid #d8cfc1;border-radius:8px;box-sizing:border-box;font-size:16px}
-    .modal-btns{display:flex;gap:8px;margin-top:16px}
-    .modal-btns button{flex:1;padding:12px;border-radius:8px;border:none;cursor:pointer;font-size:16px}
-    .modal-btns .primary{background:#7b6ed6;color:#fff}
-    .modal-btns .cancel{background:#e0d8c8;color:#5a5247}
+ .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000}
+ .modal.show{display:flex}
+ .modal-content{background:#fff;padding:24px;border-radius:16px;width:90%;max-width:360px}
+ .modal h2{font-size:20px;margin:0 0 16px;color:#2f2a24}
+ .modal input{width:100%;padding:12px;margin-bottom:12px;border:1px solid #d8cfc1;border-radius:8px;box-sizing:border-box;font-size:16px}
+ .modal-btns{display:flex;gap:8px;margin-top:16px}
+ .modal-btns button{flex:1;padding:12px;border-radius:8px;border:none;cursor:pointer;font-size:16px}
+ .modal-btns .primary{background:#7b6ed6;color:#fff}
+ .modal-btns .cancel{background:#e0d8c8;color:#5a5247}
 
-    .history-section{margin-top:20px;padding:16px;background:#f8f5f0;border-radius:12px;display:none}
-    .history-section.show{display:block}
-    .history-title{font-size:16px;font-weight:600;margin-bottom:12px;color:#2f2a24}
-    .history-list{max-height:200px;overflow-y:auto}
-    .history-item{padding:10px;background:#fff;border-radius:8px;margin-bottom:8px;font-size:14px}
-    .history-item .time{color:#888;font-size:12px}
+ .history-section{margin-top:20px;padding:16px;background:#f8f5f0;border-radius:12px;display:none}
+ .history-section.show{display:block}
+ .history-title{font-size:16px;font-weight:600;margin-bottom:12px;color:#2f2a24}
+ .history-list{max-height:200px;overflow-y:auto}
+ .history-item{padding:10px;background:#fff;border-radius:8px;margin-bottom:8px;font-size:14px}
+ .history-item .time{color:#888;font-size:12px}
 
-    @media(max-width:700px){
-      .grid{grid-template-columns:1fr}
-      .course-bar{flex-wrap:wrap}
-      .course-bar select{max-width:100%}
-    }
-  </style>
+ @media(max-width:700px){
+ .grid{grid-template-columns:1fr}
+ .course-bar{flex-wrap:wrap}
+ .course-bar select{max-width:100%}
+ }
+ </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="user-bar" id="userBar">
-      <div class="user-info" id="userInfo">👤 未登录</div>
-      <div class="user-btns" id="userBtns">
-        <button class="user-btn" onclick="showLogin()">登录</button>
-        <button class="user-btn secondary" onclick="showRegister()">注册</button>
-      </div>
-    </div>
+ <div class="wrap">
+ <div class="user-bar" id="userBar">
+ <div class="user-info" id="userInfo">👤 未登录</div>
+ <div class="user-btns" id="userBtns">
+ <button class="user-btn" onclick="showLogin()">登录</button>
+ <button class="user-btn secondary" onclick="showRegister()">注册</button>
+ </div>
+ </div>
 
-    <div class="card">
-      <h1>📘 成长教育学单词 2.0</h1>
+ <div class="card">
+ <h1>📘 成长教育学单词 2.0</h1>
 
-      <div class="bank-section">
-        <h2>🎯 选择题库</h2>
-        <div class="course-bar">
-          <select id="bookSelect"></select>
-          <select id="gradeSelect">
-            <option value="g1">1年级</option>
-            <option value="g2">2年级</option>
-            <option value="g3">3年级</option>
-            <option value="g4">4年级</option>
-            <option value="g5">5年级</option>
-            <option value="g6">6年级</option>
-            <option value="g7" selected>7年级</option>
-            <option value="g8">8年级</option>
-            <option value="g9">9年级</option>
-            <option value="wy4">外研4</option>
-            <option value="xsc">小升初</option>
-          </select>
-          <select id="termSelect">
-            <option value="s">上册</option>
-            <option value="x" selected>下册</option>
-          </select>
-          <select id="unitSelect"></select>
-        </div>
+ <div class="bank-section">
+ <h2>🎯 选择题库</h2>
+ <div class="course-bar">
+ <select id="bookSelect"></select>
+ <select id="gradeSelect"><option value="g1">1年级</option>
+ <option value="g2">2年级</option>
+ <option value="g3">3年级</option>
+ <option value="g4">4年级</option>
+ <option value="g5">5年级</option>
+ <option value="g6">6年级</option>
+ <option value="g7" selected>7年级</option>
+ <option value="g8">8年级</option>
+ <option value="g9">9年级</option>
+ <option value="wy4">外研4</option>
+ <option value="xsc">小升初</option>
+ </select>
+ <select id="termSelect">
+ <option value="s">上册</option>
+ <option value="x" selected>下册</option>
+ </select>
+ <select id="unitSelect"></select>
+ </div>
 
-        <div class="cur-bank" id="curBank">
-          <div class="label">当前选择</div>
-          <div class="name" id="curBankName">-</div>
-        </div>
-      </div>
+ <div class="cur-bank" id="curBank">
+ <div class="label">当前选择</div>
+ <div class="name" id="curBankName">-</div>
+ </div>
+ </div>
 
-      <div class="grid">
-        <div>
-          <a class="btn" href="./v2-study.html" onclick="return goWithBank()">进入学习区</a>
-          <div class="sub">设置 + 生字学习</div>
-        </div>
-        <div>
-          <a class="btn alt" href="./v2-test.html" onclick="return goWithBank()">进入检测区</a>
-          <div class="sub">闯关 + 成绩</div>
-        </div>
-      </div>
-    </div>
+ <div class="grid">
+ <div>
+ <a class="btn" href="./v2-study.html" onclick="return goWithBank()">进入学习区</a>
+ <div class="sub">设置 + 生字学习</div>
+ </div>
+ <div>
+ <a class="btn alt" href="./v2-test.html" onclick="return goWithBank()">进入检测区</a>
+ <div class="sub">闯关 + 成绩</div>
+ </div>
+ </div>
+ </div>
 
-    <div class="history-section" id="historySection">
-      <div class="history-title">📊 学习历史</div>
-      <div class="history-list" id="historyList"></div>
-    </div>
-  </div>
+ <div class="history-section" id="historySection">
+ <div class="history-title">📊 学习历史</div>
+ <div class="history-list" id="historyList"></div>
+ </div>
+ </div>
 
-  <!-- 登录模态框 -->
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <h2>登录</h2>
-      <input type="text" id="loginUsername" placeholder="用户名">
-      <input type="password" id="loginPassword" placeholder="密码">
-      <div class="modal-btns">
-        <button class="primary" onclick="doLogin()">登录</button>
-        <button class="cancel" onclick="closeModals()">取消</button>
-      </div>
-    </div>
-  </div>
+ <!-- 登录模态框 -->
+ <div class="modal" id="loginModal">
+ <div class="modal-content">
+ <h2>登录</h2>
+ <input type="text" id="loginUsername" placeholder="用户名">
+ <input type="password" id="loginPassword" placeholder="密码">
+ <div class="modal-btns">
+ <button class="primary" onclick="doLogin()">登录</button>
+ <button class="cancel" onclick="closeModals()">取消</button>
+ </div>
+ </div>
+ </div>
 
-  <!-- 注册模态框 -->
-  <div class="modal" id="registerModal">
-    <div class="modal-content">
-      <h2>注册新用户</h2>
-      <input type="text" id="regUsername" placeholder="用户名">
-      <input type="password" id="regPassword" placeholder="密码">
-      <input type="password" id="regPassword2" placeholder="再次输入密码">
-      <div class="modal-btns">
-        <button class="primary" onclick="doRegister()">注册</button>
-        <button class="cancel" onclick="closeModals()">取消</button>
-      </div>
-    </div>
-  </div>
+ <!-- 注册模态框 -->
+ <div class="modal" id="registerModal">
+ <div class="modal-content">
+ <h2>注册新用户</h2>
+ <input type="text" id="regUsername" placeholder="用户名">
+ <input type="password" id="regPassword" placeholder="密码">
+ <input type="password" id="regPassword2" placeholder="再次输入密码">
+ <div class="modal-btns">
+ <button class="primary" onclick="doRegister()">注册</button>
+ <button class="cancel" onclick="closeModals()">取消</button>
+ </div>
+ </div>
+ </div>
 
-  <script>
-    // ===== 用户系统 =====
-    const USERS_KEY = 'vocab_users';
-    const HISTORY_KEY = 'vocab_history';
-    const CURRENT_USER_KEY = 'vocab_current_user';
+ <script>
+ // ===== 云端API配置 =====
+ const API_BASE = 'http://193.112.70.254:3000/api';
 
-    function getUsers(){
-      try{ return JSON.parse(localStorage.getItem(USERS_KEY) || '{}'); }catch{ return {}; }
-    }
-    function saveUsers(users){ localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+ // ===== 用户系统 (云端) =====
+ const CURRENT_USER_KEY = 'vocab_current_user';
+ const HISTORY_KEY = 'vocab_history';
 
-    function getHistory(user){
-      try{ return JSON.parse(localStorage.getItem(HISTORY_KEY + '_' + user) || '[]'); }catch{ return []; }
-    }
-    function saveHistory(user, history){
-      localStorage.setItem(HISTORY_KEY + '_' + user, JSON.stringify(history));
-    }
+ function getCurrentUser(){ return localStorage.getItem(CURRENT_USER_KEY); }
+ function setCurrentUser(user){ localStorage.setItem(CURRENT_USER_KEY, user); }
 
-    function getCurrentUser(){ return localStorage.getItem(CURRENT_USER_KEY); }
-    function setCurrentUser(user){ localStorage.setItem(CURRENT_USER_KEY, user); }
+ // 云端存储学习历史
+ async function getHistory(user){
+ try{
+ const res = await fetch(API_BASE + '/load/' + user);
+ const data = await res.json();
+ return data ? data.history : [];
+ }catch{ return []; }
+ }
+ async function saveHistory(user, history){
+ try{
+ await fetch(API_BASE + '/save', {
+ method: 'POST',
+ headers: {'Content-Type':'application/json'},
+ body: JSON.stringify({uId: user, data: {history: history}})
+ });
+ }catch{}
+ }
 
-    function showLogin(){ document.getElementById('loginModal').classList.add('show'); }
-    function showRegister(){ document.getElementById('registerModal').classList.add('show'); }
-    function closeModals(){
-      document.getElementById('loginModal').classList.remove('show');
-      document.getElementById('registerModal').classList.remove('show');
-      document.getElementById('loginUsername').value = '';
-      document.getElementById('loginPassword').value = '';
-      document.getElementById('regUsername').value = '';
-      document.getElementById('regPassword').value = '';
-      document.getElementById('regPassword2').value = '';
-    }
+ function showLogin(){ document.getElementById('loginModal').classList.add('show'); }
+ function showRegister(){ document.getElementById('registerModal').classList.add('show'); }
+ function closeModals(){
+ document.getElementById('loginModal').classList.remove('show');
+ document.getElementById('registerModal').classList.remove('show');
+ document.getElementById('loginUsername').value = '';
+ document.getElementById('loginPassword').value = '';
+ document.getElementById('regUsername').value = '';
+ document.getElementById('regPassword').value = '';
+ document.getElementById('regPassword2').value = '';
+ }
 
-    function doLogin(){
-      const user = document.getElementById('loginUsername').value.trim();
-      const pass = document.getElementById('loginPassword').value;
-      if(!user || !pass) return alert('请输入用户名和密码');
-      const users = getUsers();
-      if(!users[user]) return alert('用户不存在');
-      if(users[user].password !== pass) return alert('密码错误');
-      setCurrentUser(user);
-      closeModals();
-      updateUserUI();
-      alert('登录成功！');
-    }
+ async function doLogin(){
+ const user = document.getElementById('loginUsername').value.trim();
+ const pass = document.getElementById('loginPassword').value;
+ if(!user || !pass) return alert('请输入用户名和密码');
+ try{
+ const res = await fetch(API_BASE + '/login', {
+ method: 'POST',
+ headers: {'Content-Type':'application/json'},
+ body: JSON.stringify({uId: user, password: pass})
+ });
+ const r = await res.json();
+ if(r.success){
+ setCurrentUser(user);
+ closeModals();
+ await updateUserUI();
+ alert('登录成功！');
+ }else{
+ alert(r.message || '登录失败');
+ }
+ }catch(e){ alert('网络错误'); }
+ }
 
-    function doRegister(){
-      const user = document.getElementById('regUsername').value.trim();
-      const pass = document.getElementById('regPassword').value;
-      const pass2 = document.getElementById('regPassword2').value;
-      if(!user || !pass) return alert('请输入用户名和密码');
-      if(pass !== pass2) return alert('两次密码不一致');
-      const users = getUsers();
-      if(users[user]) return alert('用户名已存在');
-      users[user] = { password: pass, created: Date.now() };
-      saveUsers(users);
-      setCurrentUser(user);
-      closeModals();
-      updateUserUI();
-      alert('注册成功！');
-    }
+ async function doRegister(){
+ const user = document.getElementById('regUsername').value.trim();
+ const pass = document.getElementById('regPassword').value;
+ const pass2 = document.getElementById('regPassword2').value;
+ if(!user || !pass) return alert('请输入用户名和密码');
+ if(pass !== pass2) return alert('两次密码不一致');
+ try{
+ const res = await fetch(API_BASE + '/register', {
+ method: 'POST',
+ headers: {'Content-Type':'application/json'},
+ body: JSON.stringify({uId: user, password: pass})
+ });
+ const r = await res.json();
+ if(r.success){
+ setCurrentUser(user);
+ closeModals();
+ await updateUserUI();
+ alert('注册成功！');
+ }else{
+ alert(r.message || '注册失败');
+ }
+ }catch(e){ alert('网络错误'); }
+ }
 
-    function logout(){
-      setCurrentUser(null);
-      updateUserUI();
-    }
+ function logout(){
+ setCurrentUser(null);
+ updateUserUI();
+ }
 
-    function updateUserUI(){
-      const user = getCurrentUser();
-      const userInfo = document.getElementById('userInfo');
-      const userBtns = document.getElementById('userBtns');
-      const historySection = document.getElementById('historySection');
+ async function updateUserUI(){
+ const user = getCurrentUser();
+ const userInfo = document.getElementById('userInfo');
+ const userBtns = document.getElementById('userBtns');
+ const historySection = document.getElementById('historySection');
 
-      if(user){
-        userInfo.innerHTML = '👤 <strong>' + user + '</strong>';
-        userBtns.innerHTML = '<button class="user-btn secondary" onclick="logout()">退出</button>';
-        // 显示历史
-        const history = getHistory(user);
-        if(history.length > 0){
-          historySection.classList.add('show');
-          const list = document.getElementById('historyList');
-          list.innerHTML = history.slice(0,20).map(h => 
-            '<div class="history-item"><span class="time">' + h.time + '</span><br>' + h.action + '</div>'
-          ).join('');
-        }
-      }else{
-        userInfo.textContent = '👤 未登录';
-        userBtns.innerHTML = '<button class="user-btn" onclick="showLogin()">登录</button><button class="user-btn secondary" onclick="showRegister()">注册</button>';
-        historySection.classList.remove('show');
-      }
-    }
+ if(user){
+ userInfo.innerHTML = '👤 <strong>' + user + '</strong>';
+ userBtns.innerHTML = '<button class="user-btn secondary" onclick="logout()">退出</button>';
+ const history = await getHistory(user);
+ if(history && history.length > 0){
+ historySection.classList.add('show');
+ const list = document.getElementById('historyList');
+ list.innerHTML = history.slice(0,20).map(h => 
+ '<div class="history-item"><span class="time">' + h.time + '</span><br>' + h.action + '</div>'
+ ).join('');
+ }
+ }else{
+ userInfo.textContent = '👤 未登录';
+ userBtns.innerHTML = '<button class="user-btn" onclick="showLogin()">登录</button><button class="user-btn secondary" onclick="showRegister()">注册</button>';
+ historySection.classList.remove('show');
+ }
+ }
 
-    // 记录学习历史
-    function recordAction(action){
-      const user = getCurrentUser();
-      if(!user) return;
-      const history = getHistory(user);
-      const now = new Date();
-      history.unshift({
-        time: now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + 
-              String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0'),
-        action: action
-      });
-      if(history.length > 100) history.pop();
-      saveHistory(user, history);
-      updateUserUI();
-    }
+ // 记录学习历史
+ async function recordAction(action){
+ const user = getCurrentUser();
+ if(!user) return;
+ const history = await getHistory(user);
+ const now = new Date();
+ history.unshift({
+ time: now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + 
+ String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0'),
+ action: action
+ });
+ if(history.length > 100) history.pop();
+ await saveHistory(user, history);
+ updateUserUI();
+ }
 
-    // 暴露给全局
-    window.recordAction = recordAction;
+ window.recordAction = recordAction;
 
-    // ===== 题库系统 =====
-    const gradeSelect = document.getElementById('gradeSelect');
-    const termSelect = document.getElementById('termSelect');
-    const unitSelect = document.getElementById('unitSelect');
-    const bookSelect = document.getElementById('bookSelect');
-    const curBankName = document.getElementById('curBankName');
+ // ===== 题库系统 =====
+ const gradeSelect = document.getElementById('gradeSelect');
+ const termSelect = document.getElementById('termSelect');
+ const unitSelect = document.getElementById('unitSelect');
+ const bookSelect = document.getElementById('bookSelect');
+ const curBankName = document.getElementById('curBankName');
 
-    const CUSTOM_BOOKS_KEY = 'custom_books_menu_v1';
-    function loadCustomBooks(){
-      try{ return JSON.parse(localStorage.getItem(CUSTOM_BOOKS_KEY) || '{}') || {}; }catch{ return {}; }
-    }
-    function isCustomBookValue(v){ return String(v||'').startsWith('custom:'); }
-    function getSelectedCustomBook(){
-      const v = bookSelect?.value || '';
-      if(!isCustomBookValue(v)) return null;
-      return loadCustomBooks()[v.replace(/^custom:/,'')] || null;
-    }
+ const CUSTOM_BOOKS_KEY = 'custom_books_menu_v1';
+ function loadCustomBooks(){
+ try{ return JSON.parse(localStorage.getItem(CUSTOM_BOOKS_KEY) || '{}'); }catch{ return {}; }
+ }
+ function isCustomBookValue(v){ return String(v||'').startsWith('custom:'); }
+ function getSelectedCustomBook(){
+ const v = bookSelect?.value || '';
+ if(!isCustomBookValue(v)) return null;
+ return loadCustomBooks()[v.replace(/^custom:/,'')] || null;
+ }
 
-    function renderBookOptions(){
-      const prev = bookSelect.value || localStorage.getItem('vocab-book') || 'builtin';
-      const customBooks = Object.values(loadCustomBooks());
-      bookSelect.innerHTML = '';
-      [['builtin','内置题库']].concat(customBooks.map(b=>[`custom:${b.id}`, b.name])).forEach(([val,label])=>{
-        const op = document.createElement('option');
-        op.value = val;
-        op.textContent = label;
-        bookSelect.appendChild(op);
-      });
-      bookSelect.value = [...bookSelect.options].some(op=>op.value===prev) ? prev : 'builtin';
-      gradeSelect.style.display = bookSelect.value==='builtin' ? '' : 'none';
-    }
+ function renderBookOptions(){
+ const prev = bookSelect.value || localStorage.getItem('vocab-book') || 'builtin';
+ const customBooks = Object.values(loadCustomBooks());
+ bookSelect.innerHTML = '';
+ [['builtin','内置题库']].concat(customBooks.map(b=>[`custom:${b.id}`, b.name])).forEach(([val,label])=>{
+ const op = document.createElement('option');
+ op.value = val;
+ op.textContent = label;
+ bookSelect.appendChild(op);
+ });
+ bookSelect.value = [...bookSelect.options].some(op=>op.value===prev) ? prev : 'builtin';
+ gradeSelect.style.display = bookSelect.value==='builtin' ? '' : 'none';
+ }
 
-    function customUnitKey(bookId, term, u){ return `custom:${bookId}:${term}:u${u}`; }
+ function customUnitKey(bookId, term, u){ return `custom:${bookId}:${term}:u${u}`; }
 
-    function renderUnitOptions(){
-      const oldVal = unitSelect.value || '';
-      const grade = gradeSelect.value || 'g7';
-      const term = termSelect.value || 'x';
-      let list = [];
+ function renderUnitOptions(){
+ const oldVal = unitSelect.value || '';
+ const grade = gradeSelect.value || 'g7';
+ const term = termSelect.value || 'x';
+ let list = [];
 
-      if(bookSelect.value !== 'builtin'){
-        const book = getSelectedCustomBook();
-        const units = book?.terms?.[term] || {};
-        const nums = Object.keys(units).length
-          ? Object.keys(units).map(k=>Number(String(k).replace(/^u/,''))).filter(Boolean).sort((a,b)=>a-b)
-          : Array.from({length:10},(_,i)=>i+1);
-        list = nums.map(u=>[customUnitKey(book.id, term, u), `Unit ${u}`]);
-      }else if(/^g[1-6]$/.test(grade)){
-        const g = grade.slice(1);
-        list = Array.from({length:10}, (_,i)=>{
-          const u=i+1;
-          return [`g${g}${term}_u${u}`, `Unit ${u}`];
-        });
-      }else if(grade==='g7'){
-        if(term==='s'){
-          list = [
-            ['starter1','Starter Unit 1'],['starter2','Starter Unit 2'],['starter3','Starter Unit 3'],
-            ['unit1','Unit 1'],['unit2','Unit 2'],['unit3','Unit 3'],['unit4','Unit 4'],['unit5','Unit 5'],['unit6','Unit 6'],['unit7','Unit 7']
-          ];
-        }else{
-          list = [
-            ['unit8','Unit 1'],['unit9','Unit 2'],['unit10','Unit 3'],['unit11','Unit 4'],['unit12','Unit 5'],['unit13','Unit 6'],['unit14','Unit 7'],['unit15','Unit 8']
-          ];
-        }
-      }else if(grade==='wy4'){
-        list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
-      }else if(grade==='xsc'){
-        list = Array.from({length:8}, (_,i)=>{const u=i+1;return [`xsc${term}_u${u}`, `Unit ${u}`];});
-      }else if(grade==='g8' || grade==='g9'){
-        const g = grade.slice(1);
-        const maxUnits = (grade==='g8') ? 8 : 14;
-        list = Array.from({length:maxUnits}, (_,i)=>{
-          const u=i+1;
-          return [`g${g}${term}_u${u}`, `Unit ${u}`];
-        });
-      }
+ if(bookSelect.value !== 'builtin'){
+ const book = getSelectedCustomBook();
+ const units = book?.terms?.[term] || {};
+ const nums = Object.keys(units).length
+ ? Object.keys(units).map(k=>Number(String(k).replace(/^u/,''))).filter(Boolean).sort((a,b)=>a-b)
+ : Array.from({length:10},(_,i)=>i+1);
+ list = nums.map(u=>[customUnitKey(book.id, term, u), `Unit ${u}`]);
+ }else if(/^g[1-6]$/.test(grade)){
+ const g = grade.slice(1);
+ list = Array.from({length:10}, (_,i)=>{
+ const u=i+1;
+ return [`g${g}${term}_u${u}`, `Unit ${u}`];
+ });
+ }else if(grade==='g7'){
+ if(term==='s'){
+ list = [
+ ['starter1','Starter Unit 1'],['starter2','Starter Unit 2'],['starter3','Starter Unit 3'],
+ ['unit1','Unit 1'],['unit2','Unit 2'],['unit3','Unit 3'],['unit4','Unit 4'],['unit5','Unit 5'],['unit6','Unit 6'],['unit7','Unit 7']
+ ];
+ }else{
+ list = [
+ ['unit8','Unit 1'],['unit9','Unit 2'],['unit10','Unit 3'],['unit11','Unit 4'],['unit12','Unit 5'],['unit13','Unit 6'],['unit14','Unit 7'],['unit15','Unit 8']
+ ];
+ }
+ }else if(grade==='wy4'){
+ list = Array.from({length:6}, (_,i)=>{const u=i+1;return [`wy4x_u${u}`, `Unit ${u}`];});
+ }else if(grade==='xsc'){
+ list = Array.from({length:8}, (_,i)=>{const u=i+1;return [`xsc${term}_u${u}`, `Unit ${u}`];});
+ }else if(grade==='g8' || grade==='g9'){
+ const g = grade.slice(1);
+ const maxUnits = (grade==='g8') ? 8 : 14;
+ list = Array.from({length:maxUnits}, (_,i)=>{
+ const u=i+1;
+ return [`g${g}${term}_u${u}`, `Unit ${u}`];
+ });
+ }
 
-      unitSelect.innerHTML = '';
-      let found = false;
-      list.forEach(([val,label],i)=>{
-        const op = document.createElement('option');
-        op.value = val;
-        op.textContent = label;
-        if(val === oldVal){ op.selected = true; found = true; }
-        else if(!oldVal && i===0){ op.selected = true; found = true; }
-        unitSelect.appendChild(op);
-      });
-      if(!found && unitSelect.options.length>0) unitSelect.options[0].selected = true;
-      updateCurrentText();
-    }
+ unitSelect.innerHTML = '';
+ let found = false;
+ list.forEach(([val,label],i)=>{
+ const op = document.createElement('option');
+ op.value = val;
+ op.textContent = label;
+ if(val === oldVal){ op.selected = true; found = true; }
+ else if(!oldVal && i===0){ op.selected = true; found = true; }
+ unitSelect.appendChild(op);
+ });
+ if(!found && unitSelect.options.length>0) unitSelect.options[0].selected = true;
+ updateCurrentText();
+ }
 
-    function buildBankCode(){
-      const bookVal = bookSelect.value || 'builtin';
-      const g = gradeSelect.value;
-      const t = termSelect.value;
-      const u = unitSelect.value || '';
+ function buildBankCode(){
+ const bookVal = bookSelect.value || 'builtin';
+ const g = gradeSelect.value;
+ const t = termSelect.value;
+ const u = unitSelect.value || '';
 
-      if(bookVal !== 'builtin') return bookVal;
-      if(/^g[1-6]$/.test(g)) return `${g}${t}`;
-      if(g==='g7'){
-        if(/^starter[123]$/.test(u)) return `g7${u}`;
-        const m = u.match(/^unit(\d+)$/);
-        if(m) return `g7u${m[1]}`;
-      }
-      if((g==='g8' || g==='g9') && /^g[89][sx]_u\d+$/i.test(u)) return u.replace('_u','-u');
-      if(g==='wy4') return 'wy4x';
-      if(g==='xsc') return `xsc${t}`;
-      return `${g}${t}`;
-    }
+ if(bookVal !== 'builtin') return bookVal;
+ if(/^g[1-6]$/.test(g)) return `${g}${t}`;
+ if(g==='g7'){
+ if(/^starter[123]$/.test(u)) return `g7${u}`;
+ const m = u.match(/^unit(\d+)$/);
+ if(m) return `g7u${m[1]}`;
+ }
+ if((g==='g8' || g==='g9') && /^g[89][sx]_u\d+$/i.test(u)) return u.replace('_u','-u');
+ if(g==='wy4') return 'wy4x';
+ if(g==='xsc') return `xsc${t}`;
+ return `${g}${t}`;
+ }
 
-    function updateCurrentText(){
-      const bookText = bookSelect.options[bookSelect.selectedIndex]?.text || '内置题库';
-      const gtxt = gradeSelect.options[gradeSelect.selectedIndex]?.text || '';
-      const ttxt = termSelect.options[termSelect.selectedIndex]?.text || '';
-      const utxt = unitSelect.options[unitSelect.selectedIndex]?.text || '';
-      curBankName.textContent = bookSelect.value==='builtin' ? `${gtxt} · ${ttxt} · ${utxt}` : `${bookText} · ${ttxt} · ${utxt}`;
-    }
+ function updateCurrentText(){
+ const bookText = bookSelect.options[bookSelect.selectedIndex]?.text || '内置题库';
+ const gtxt = gradeSelect.options[gradeSelect.selectedIndex]?.text || '';
+ const ttxt = termSelect.options[termSelect.selectedIndex]?.text || '';
+ const utxt = unitSelect.options[unitSelect.selectedIndex]?.text || '';
+ curBankName.textContent = bookSelect.value==='builtin' ? `${gtxt} · ${ttxt} · ${utxt}` : `${bookText} · ${ttxt} · ${utxt}`;
+ }
 
-    function goWithBank(){
-      const bank = buildBankCode();
-      localStorage.setItem('vocab-bank', bank);
-      localStorage.setItem('vocab-book', bookSelect.value || 'builtin');
-      localStorage.setItem('vocab-grade', gradeSelect.value);
-      localStorage.setItem('vocab-term', termSelect.value);
-      localStorage.setItem('vocab-unit', unitSelect.value || '');
-      return true;
-    }
+ function goWithBank(){
+ const bank = buildBankCode();
+ localStorage.setItem('vocab-bank', bank);
+ localStorage.setItem('vocab-book', bookSelect.value || 'builtin');
+ localStorage.setItem('vocab-grade', gradeSelect.value);
+ localStorage.setItem('vocab-term', termSelect.value);
+ localStorage.setItem('vocab-unit', unitSelect.value || '');
+ return true;
+ }
 
-    bookSelect.onchange = ()=>{ renderBookOptions(); renderUnitOptions(); updateCurrentText(); };
-    gradeSelect.onchange = renderUnitOptions;
-    termSelect.onchange = renderUnitOptions;
-    unitSelect.onchange = updateCurrentText;
+ bookSelect.onchange = ()=>{ renderBookOptions(); renderUnitOptions(); updateCurrentText(); };
+ gradeSelect.onchange = renderUnitOptions;
+ termSelect.onchange = renderUnitOptions;
+ unitSelect.onchange = updateCurrentText;
 
-    (function init(){
-      renderBookOptions();
-      renderUnitOptions();
-      // 恢复题库选择
-      const sb = localStorage.getItem('vocab-book');
-      const sg = localStorage.getItem('vocab-grade');
-      const st = localStorage.getItem('vocab-term');
-      const su = localStorage.getItem('vocab-unit');
-      if(sb && [...bookSelect.options].some(o=>o.value===sb)) bookSelect.value = sb;
-      if(sg && [...gradeSelect.options].some(o=>o.value===sg)) gradeSelect.value = sg;
-      if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
-      renderBookOptions();
-      renderUnitOptions();
-      if(su && [...unitSelect.options].some(o=>o.value===su)) unitSelect.value = su;
-      updateCurrentText();
-      // 恢复用户状态
-      updateUserUI();
-    })();
+ (function init(){
+ renderBookOptions();
+ renderUnitOptions();
+ const sb = localStorage.getItem('vocab-book');
+ const sg = localStorage.getItem('vocab-grade');
+ const st = localStorage.getItem('vocab-term');
+ const su = localStorage.getItem('vocab-unit');
+ if(sb && [...bookSelect.options].some(o=>o.value===sb)) bookSelect.value = sb;
+ if(sg && [...gradeSelect.options].some(o=>o.value===sg)) gradeSelect.value = sg;
+ if(st && [...termSelect.options].some(o=>o.value===st)) termSelect.value = st;
+ renderBookOptions();
+ renderUnitOptions();
+ if(su && [...unitSelect.options].some(o=>o.value===su)) unitSelect.value = su;
+ updateCurrentText();
+ updateUserUI();
+ })();
 
-    window.goWithBank = goWithBank;
-  </script>
+ window.goWithBank = goWithBank;
+ </script>
 <script>
 const wy4x_u1=[["work","工作"],["worker","工人"],["doctor","医生"],["aunt","姑母"],["fireman","消防员"],["night","夜晚"],["farmer","农民"],["owl","猫头鹰"],["cook","厨师"],["night owl","夜猫子"],["police","警察"],["police officer","警官"],["driver","司机"],["station","站"],["taxi","出租车"],["police station","派出所"],["safe","安全"],["nurse","护士"],["often","经常"],["light","灯"],["field","田地"],["uncle","叔叔"],["painter","画家"],["paint","油漆"],["bake","烘烤"],["use","使用"],["bee","蜜蜂"],["brush","刷子"],["same","相同"],["scientist","科学家"],["writer","作家"],["write","写"],["sound","声音"],["postman","邮递员"],["life","生活"],["mountain","山"]];
 const wy4x_u2=[["laugh","笑"],["sad","伤心"],["scared","害怕"],["angry","生气"],["excited","兴奋"],["opera","歌剧"],["next","下一个"],["cough","咳嗽"],["better","更好"],["gift","礼物"],["model","模型"],["shout","喊叫"],["should","应该"],["feeling","感觉"],["huge","巨大"],["worried","担心"],["street","街道"],["hit","撞击"]];
